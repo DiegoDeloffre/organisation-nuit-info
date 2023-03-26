@@ -1,0 +1,25 @@
+.membre {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.membre h3{
+    margin :0;
+}
+
+.chef {
+    width: 25px;
+    height: 25px;
+}
+
+.chef img {
+    width: 25px;
+    height: 25px;
+}
+.removeMember{
+    cursor: pointer;
+}

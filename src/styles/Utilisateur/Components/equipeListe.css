@@ -1,0 +1,44 @@
+.equipe-liste {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.equipe-membre-recrute {
+    text-align: center;
+    width: 20%;
+}
+
+.equipe-liste h2 {
+    width: 15%;
+    text-align: center;
+}
+
+
+.equipe-liste Button {
+    width: 10%;
+    margin: 10px;
+}
+
+.description {
+    width: 35%;
+    text-align: justify;
+}
+
+.criteres{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 10%;
+}
+
+.criteres h5{
+    margin: 0;
+    text-align: center;
+}
+
+/* buttonmessage et buttondemande */

@@ -1,0 +1,87 @@
+.comparer-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed gray;
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    padding: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.file-input-container:hover {
+    background-color: rgb(239, 239, 239);
+}
+
+.file-input-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.file-icon {
+    font-size: 4rem;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.file-placeholder {
+    font-size: 1.2rem;
+    color: #999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+}
+
+
+.file-preview-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.file-preview-icon {
+    font-size: 4rem;
+    color: #ccc;
+    margin-right: 10px;
+}
+
+.file-preview-name {
+    font-size: 1.2rem;
+}
+
+@media screen and (max-width: 768px) {
+    .file-input-container {
+        height: 150px;
+    }
+
+    .file-icon {
+        font-size: 3rem;
+    }
+
+    .file-placeholder {
+        font-size: 1rem;
+    }
+
+    .file-preview-name {
+        font-size: 1rem;
+    }
+}

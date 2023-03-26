@@ -1,0 +1,29 @@
+.administrateur {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: auto;
+    background-color: #fff;
+}
+
+.administrateur h1 {
+    margin: auto;
+    padding-bottom: 30px;
+}
+
+.barre-onglets {
+    display: flex;
+}
+
+.contenu-onglet {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.buttons {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}

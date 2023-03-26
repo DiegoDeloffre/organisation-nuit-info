@@ -1,0 +1,25 @@
+.materiel-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.materiel-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 80%;
+    padding-bottom: 20px;
+}
+
+.materiel-print{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.materiel-table th,
+.materiel-table td {
+    border: 1px solid #ccc;
+}

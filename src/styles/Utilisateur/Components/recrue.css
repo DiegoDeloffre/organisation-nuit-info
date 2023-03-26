@@ -1,0 +1,29 @@
+.recrue {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.recrue p:first-child {
+    width: 15%;
+}
+
+.recrue p:nth-child(2) {
+    width: 50%;
+}
+
+.recrue Button {
+    width: 12%;
+    margin: 10px;
+}
+
+.recrue-button-demande {
+    width: 12%;
+}
+
+.recrue-button-demande Button{
+    width: 100%;
+    margin: 10px;
+}

@@ -1,0 +1,30 @@
+.tableau-donnees {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.tableau-donnees th,
+.tableau-donnees td {
+    text-align: center;
+    padding: 8px;
+} 
+
+.tableau-donnees th {
+    background-color: #4285f4;
+    color: #fff;
+}
+
+.tableau-donnees tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.tableau-donnees tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+.tableau-donnees ul {
+    text-align: left;
+    padding-left: 25%;
+}
