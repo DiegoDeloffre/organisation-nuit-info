@@ -25,7 +25,27 @@ const login = async () => {
   }
 }
 
+const getFilieres = async () => {
+  const url = `${url}/api/data`;
+  const requestOptions = {
+      method: 'GET',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+  };
+
+  try {
+      const response = await fetch(url, requestOptions);
+      if (!response.ok) {
+          throw new Error('La requête a échoué');
+      }
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error(error);
+      throw new Error('Une erreur est survenue lors de la requête');
+  }
+}
+
 
 export {
-  login, signup
+  login, signup, getFilieres
 };

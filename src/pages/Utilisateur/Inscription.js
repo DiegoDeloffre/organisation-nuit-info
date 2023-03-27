@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Button
 } from '@material-ui/core';
+import { getFilieres } from '../../api/apiReact/apitools';
 
 function Inscription() {
   const [email, setEmail] = useState('');
