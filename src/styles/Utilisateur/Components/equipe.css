@@ -1,0 +1,24 @@
+.equipe {
+    height: 65%;
+    max-height: 65%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+}
+
+.equipe-members {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 90%;
+    overflow: auto;
+    width: 100%;
+}
+
+.equipe-button {
+    height: 10%;
+}

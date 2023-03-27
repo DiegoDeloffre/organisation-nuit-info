@@ -1,0 +1,23 @@
+.onglet.actif {
+    border-bottom-color: transparent;
+    flex: 2;
+    z-index: 1;
+    background-color: grey;
+    color: white;
+    font-size: larger;
+}
+
+.onglet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    font-weight: bold;
+    flex: 1;
+    font-size: large;
+}

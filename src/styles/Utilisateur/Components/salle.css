@@ -1,0 +1,50 @@
+.salle {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.salle h2 {
+    width: 100%;
+    text-align: center;
+    height: 10%;
+}
+
+.salle-inner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 90%;
+}
+
+.salle-inner Button{
+    width: 40%;
+}
+
+.choice {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.choices {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+}
+
+.affectee {
+    justify-content: center;
+}
+
+.salleAffectee {
+    padding-bottom: 15%;
+}

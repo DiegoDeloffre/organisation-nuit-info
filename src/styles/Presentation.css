@@ -1,0 +1,24 @@
+.presentation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.presentation-title {
+    text-align: center;
+}
+
+.presentation-subtitle {
+    text-align: center;
+}
+
+.presentation-paragraph {
+    text-align: center;
+    width: 80%;
+    text-align: justify;
+}
+
+.presentation-image {
+    display: block;
+    margin: 0 auto;
+}
