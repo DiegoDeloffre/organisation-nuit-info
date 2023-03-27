@@ -3,7 +3,7 @@ $dbName="";
 $utilisateur="";
 $mdp="";
             try{
-			 $bd = new PDO ( "mysql:http://localhost/phpmyadmin/index.php?route=/&route=%2F ;dbname=nuitinfosite","root", "root" );
+			 $bd = new PDO ( "mysql:host=mysql-nuitinfosite.alwaysdata.net;dbname=nuitinfosite_bdd","305937_bdd", "NuitInfoSite37+*" );
 			 $bd->exec('SET NAMES utf8');
 			}
 			catch (Exception $e) {
