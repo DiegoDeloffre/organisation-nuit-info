@@ -42,5 +42,5 @@ const affecterSalles = async () => {
 
 export {
     affecterSalles, getInfosSalle, comparerListes, bloquerInscriptions, resetDatabase, ajouterOrganisateur, getMateriels, getChercheurs, 
-    getParticipants, getEquipes
+    getParticipants, getEquipes 
 };
