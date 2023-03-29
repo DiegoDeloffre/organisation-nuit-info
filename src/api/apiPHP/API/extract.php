@@ -44,19 +44,22 @@ if(!empty($_POST["action"])){
             echo json_encode(recupEquipeRecrutant());
             break;
         case "RecupChercheurs":
-            //
+            echo json_encode(recupChercheur());
             break;
         case "AjouterOrganisateur":
             //
             break;
         case "RecupListeParticipants":
-            //
+            echo json_encode(recupListeParticipant());
             break;
         case "RecupListeEquipe":
-            //
+            echo json_encode(recupListeEquipe());
             break;
-        case "RecupListeMateriels":
-            //
+        case "RecupListeMaterielsEquipe":
+            echo json_encode(recupListeMaterielEquipe());
+            break;
+        case "RecupListeMaterielsGlobale":
+            echo json_encode(recupListeMaterielGlobale());
             break;
     }
 

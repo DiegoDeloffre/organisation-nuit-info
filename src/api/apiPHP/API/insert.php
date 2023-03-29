@@ -3,7 +3,8 @@ header('Content-Type: application/json');
 
 include '../controleur/bdd.php';
 include_once '../model/userInsert.php';
-include_once'../model/equipeInsert.php';
+include_once '../model/equipeInsert.php';
+include_once '../model/utils.php';
 
 if(!empty($_POST["action"])){
     $action = $_POST["action"];
