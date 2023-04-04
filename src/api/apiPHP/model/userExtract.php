@@ -19,7 +19,7 @@ function connectUser($Mail,$MDP){
 
 function recupDescChercheur($IdUser){
     global $bd;
-    $sql="SELECT DISTINCT chercheur.Description FROM chercheur WHERE chercheur.IdUser = :IdUser;
+    $sql="SELECT DISTINCT chercheur.Description, chercheur.Nom, chercheur.Prenom, filiere.Nom AS 'Filiere', users.Mail FROM chercheur INNER JOIN filiere INNER JOIN users WHERE chercheur.IdUser = :IdUser AND users.IdUser = chercheur.IdUser AND chercheur.IdFiliere = filiere.IdFiliere;
     ";
 	$marqueur=array('IdUser'=>$IdUser);
 	$req = $bd->prepare($sql);
