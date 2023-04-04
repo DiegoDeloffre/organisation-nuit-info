@@ -46,7 +46,12 @@ if(!empty($_POST["action"])){
             break;
         case "ModifierMateriel":
             if(!empty($_POST["IdUser"]) && !empty($_POST["NbMulti"]) && !empty($_POST["NbClavier"]) && !empty($_POST["NbEcran"]) && !empty($_POST["NbSouris"])){
-                UpdateTeamMateriel($_POST["IdUser"],$_POST["NbMulti"],$_POST["NbEcran"],$_POST["NbSouris"],$_POST["NbClavier"]);
+                if(!empty($_POST["Autres"])){
+                    UpdateTeamMateriel($_POST["IdUser"],$_POST["NbMulti"],$_POST["NbEcran"],$_POST["NbSouris"],$_POST["NbClavier"],$_POST["Autres"]);
+                }else{
+                    UpdateTeamMateriel($_POST["IdUser"],$_POST["NbMulti"],$_POST["NbEcran"],$_POST["NbSouris"],$_POST["NbClavier"]);
+                }
+                
             }     
             break;
         case "ModifierChoix":
@@ -60,7 +65,10 @@ if(!empty($_POST["action"])){
             }    
             break;
         case "AjouterOrganisateur":
-            //
+            if(!empty($_POST["Mail"]) && !empty($_POST["MDP"])){
+                
+                CreateNewOrganisateur($_POST["Mail"],$_POST["MDP"]);
+            }    
             break;
         case "AjouterDemande":
             if(!empty($_POST["IdUser"]) && !empty($_POST["IdEquipe"])){
@@ -72,6 +80,12 @@ if(!empty($_POST["action"])){
                 AcceptDemande($_POST["IdUser"],$_POST["IdChercheur"]);
             }
             break;
+        case "AffecterSalle":
+            if(!empty($_POST["IdUser"]) && !empty($_POST["IdSalle"])){
+                UpdateTeamSalle($_POST["IdUser"],$_POST["IdSalle"]);
+            }
+            break;
+            
     }
 
 }

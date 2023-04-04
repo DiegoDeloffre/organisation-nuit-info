@@ -61,5 +61,17 @@ function recupListeParticipant(){
 	$req->closeCursor();
 	return $enreg;
 }
+
+function getContactOrga(){
+	global $bd;
+    $sql="SELECT Mail FROM users WHERE IdType = 2;
+    ";
+	$req = $bd->prepare($sql);
+	$req->execute();
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $enreg;
+}
+
 ?>
 

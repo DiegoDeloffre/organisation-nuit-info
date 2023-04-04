@@ -61,6 +61,17 @@ if(!empty($_POST["action"])){
         case "RecupListeMaterielsGlobale":
             echo json_encode(recupListeMaterielGlobale());
             break;
+        case "RecupSalleEquipe":
+            if(!empty($_POST["IdUser"])){
+                echo json_encode(recupSalleEquipe($_POST["IdUser"]));
+            }
+            break;
+        case "RecupSalles":
+            echo json_encode(getAllSalles());
+            break;
+        case "recupContactsOrga":
+            echo json_encode(getContactOrga());
+            break;
     }
 
 }

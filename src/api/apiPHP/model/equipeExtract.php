@@ -34,7 +34,7 @@ function recupDescEquipe($IdUser){
 
 function recupMaterielEquipe($IdUser){
     global $bd;
-    $sql="SELECT DISTINCT equipe.NbEcran AS 'Ecrans', equipe.NbMulti AS 'Multiprises', equipe.NbSouris AS 'Souris', equipe.NbClavier AS 'Claviers' FROM equipe INNER JOIN chef INNER JOIN users WHERE chef.IdUser = :IdUser AND equipe.IdChef = chef.IdChef;
+    $sql="SELECT DISTINCT equipe.NbEcran AS 'Ecrans', equipe.NbMulti AS 'Multiprises', equipe.NbSouris AS 'Souris', equipe.NbClavier AS 'Claviers',equipe.autres FROM equipe INNER JOIN chef INNER JOIN users WHERE chef.IdUser = :IdUser AND equipe.IdChef = chef.IdChef;
     ";
 	$marqueur=array('IdUser'=>$IdUser);
 	$req = $bd->prepare($sql);
@@ -107,7 +107,7 @@ function recupListeEquipe(){
 function recupListeMaterielEquipe(){
 	global $bd;
 	
-	$sql="SELECT DISTINCT equipe.IdEquipe,equipe.Nom,equipe.NbEcran AS 'Ecrans', equipe.NbMulti AS 'Multiprises', equipe.NbSouris AS 'Souris', equipe.NbClavier AS 'Claviers' FROM equipe INNER JOIN chef INNER JOIN users WHERE equipe.IdChef = chef.IdChef;
+	$sql="SELECT DISTINCT equipe.IdEquipe,equipe.Nom,equipe.NbEcran AS 'Ecrans',equipe.autres, equipe.NbMulti AS 'Multiprises', equipe.NbSouris AS 'Souris', equipe.NbClavier AS 'Claviers' FROM equipe INNER JOIN chef INNER JOIN users WHERE equipe.IdChef = chef.IdChef;
 	";
 	$req = $bd->prepare($sql);
 	$req->execute();
@@ -122,9 +122,36 @@ function recupListeMaterielGlobale(){
 	$sql="SELECT SUM(equipe.NbMulti) AS 'NbTotalMulti',SUM(equipe.NbClavier) AS 'NbTotalClavier',SUM(equipe.NbEcran) AS 'NbTotalEcran',SUM(equipe.NbSouris) AS 'NbTotalSouris' FROM equipe;";
 	$req = $bd->prepare($sql);
 	$req->execute();
+	$enreg["Basiques"]=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+
+	$sql="SELECT autres,Nom FROM equipe WHERE autres!='';";
+	$req = $bd->prepare($sql);
+	$req->execute();
+	$enreg["Autres"]=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $enreg;
+}
+
+function recupSalleEquipe($IdUser){
+    global $bd;
+    $sql="SELECT DISTINCT salle.Nom FROM salle INNER JOIN equipe INNER JOIN chef INNER JOIN users WHERE chef.IdUser = :IdUser AND equipe.IdChef = chef.IdChef AND equipe.IdSalle = salle.IdSalle;
+    ";
+	$marqueur=array('IdUser'=>$IdUser);
+	$req = $bd->prepare($sql);
+	$req->execute($marqueur);
 	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $enreg;
 }
 
+function getAllSalles(){
+	global $bd;
+    $sql="SELECT Nom,IdSalle FROM salle";
+	$req = $bd->prepare($sql);
+	$req->execute();
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $enreg;
+}
 ?>

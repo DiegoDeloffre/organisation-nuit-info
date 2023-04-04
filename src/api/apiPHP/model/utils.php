@@ -18,7 +18,7 @@ function getUserMail($Mail){
 
 function getIdEquipeFromIdUser($IdUser){
     global $bd;
-    $sql="SELECT IdEquipe FROM Equipe WHERE IdChef=(SELECT IdChef FROM chef WHERE IdUser=:IdUser)";
+    $sql="SELECT IdEquipe FROM equipe INNER JOIN chef WHERE equipe.IdChef = chef.IdChef AND chef.IdUser=:IdUser";
 	$marqueur=array('IdUser'=>$IdUser);
 	$req = $bd->prepare($sql);
 	$req->execute($marqueur);
@@ -103,7 +103,7 @@ function getDemande($IdChercheur, $IdEquipe){
 	$marqueur=array('IdChercheur'=>$IdChercheur,'IdEquipe'=>$IdEquipe);
 	$req = $bd->prepare($sql);
 	$req->execute($marqueur);
-	$enreg=$req->fetchAll();
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
     return $enreg;
 }

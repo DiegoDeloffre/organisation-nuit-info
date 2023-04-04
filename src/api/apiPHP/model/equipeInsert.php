@@ -30,13 +30,16 @@ function UpdateTeamDescription($IdUser,$Description){
 	$req->closeCursor();
 }
 
-function UpdateTeamMateriel($IdUser,$NbMulti,$NbEcran,$NbSouris,$NbClavier){
+function UpdateTeamMateriel($IdUser,$NbMulti,$NbEcran,$NbSouris,$NbClavier,$Autres){
 	global $bd;
-    $sql="UPDATE equipe SET NbMulti=:NbMulti,NbEcran=:NbEcran,NbSouris=:NbSouris,NbClavier=:NbClavier WHERE IdEquipe=:IdEquipe ";
-	$marqueur=array('NbClavier'=>$NbClavier,'NbMulti'=>$NbMulti,'NbEcran'=>$NbEcran,'NbSouris'=>$NbSouris,'IdEquipe'=>getIdEquipeFromIdUser($IdUser)[0]);
+	
+	$sql="UPDATE equipe INNER JOIN chef SET NbMulti=:NbMulti,NbEcran=:NbEcran,NbSouris=:NbSouris,NbClavier=:NbClavier,autres=:autres WHERE equipe.IdChef=chef.IdChef AND chef.IdUser=:IdUser ";
+	$marqueur=array('NbClavier'=>$NbClavier,'NbMulti'=>$NbMulti,'NbEcran'=>$NbEcran,'NbSouris'=>$NbSouris,'IdUser'=>$IdUser,'autres'=>$Autres);
 	$req = $bd->prepare($sql);
 	$req->execute($marqueur);
 	$req->closeCursor();
+	
+    
 }
 
 function UpdateTeamChoices($IdUser,$SalleEquipe,$Isole){
@@ -87,5 +90,15 @@ function AcceptDemande($IdUser,$IdChercheur){
 		$req->closeCursor();
 	}
 	
+}
+
+
+function UpdateTeamSalle($IdUser, $IdSalle){
+	global $bd;
+	$sql="UPDATE equipe SET IdSalle=:IdSalle WHERE IdEquipe=:IdEquipe";
+	$marqueur=array('IdSalle'=>$IdSalle,'IdEquipe'=>getIdEquipeFromIdUser($IdUser)[0]);
+	$req = $bd->prepare($sql);
+	$req->execute($marqueur);
+	$req->closeCursor();
 }
 ?>
