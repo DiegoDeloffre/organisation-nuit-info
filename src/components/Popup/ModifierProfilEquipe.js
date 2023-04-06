@@ -10,7 +10,6 @@ function ModifierProfilEquipe({ value, onSave, onClose }) {
     };
 
     const handleModifier = (event) => {
-        // modifier desc
         onSave(description);
         onClose();
     };

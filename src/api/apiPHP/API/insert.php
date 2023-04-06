@@ -62,7 +62,7 @@ if(!empty($_POST["action"])){
                 UpdateTeamChoices($_POST["IdUser"],$_POST["SalleEquipe"],$_POST["Isole"]);
             }      
             break;
-        case "ModifierNomEquipe":
+        case "ModifierNomEquipe": 
             if(!empty($_POST["IdUser"]) && !empty($_POST["Nom"])){
                 UpdateTeamName($_POST["IdUser"],$_POST["Nom"]);
             }    

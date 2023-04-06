@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-function ListeParticipants() {
-    const [donnees, setDonnees] = useState([]);
+import { getParticipants } from "../../api/apiReact/apiAdministrateur";
 
-    /*useEffect(() => {
-      // Appel API vers la base de données
-      fetch("https://exemple.com/api/donnees")
-        .then((reponse) => reponse.json())
-        .then((donneesApi) => setDonnees(donneesApi));
-    }, []);*/
+function ListeParticipants() {
+    const [participants, setParticipants] = useState([]);
+
+    useEffect(() => {
+        const recupParticipants = async () => {
+            let data = await getParticipants();
+            setParticipants(data)
+        };
+        recupParticipants();
+    }, []);
 
     return (
         <table className="tableau-donnees">
@@ -23,34 +26,20 @@ function ListeParticipants() {
                 </tr>
             </thead>
             <tbody>
-                <tr key={1}>
-                    <td>Equipe 1</td>
-                    <td>Nom 1</td>
-                    <td>Prénom 1</td>
-                    <td>nom1.prenom1@etu.univ-tours.fr</td>
-                    <td>DI5</td>
-                    <td>Lovelace</td>
-                </tr>
-                <tr key={2}>
-                    <td>Equipe 2</td>
-                    <td>Nom 2</td>
-                    <td>Prénom 2</td>
-                    <td>nom2.prenom2@etu.univ-tours.fr</td>
-                    <td>DI4</td>
-                    <td>Lovelace</td>
-                </tr>
-
-
-                {/* {donnees.map((donneesLigne) => (
-          <tr key={donneesLigne.id}>
-            <td>{donneesLigne.equipe}</td>
-            <td>{donneesLigne.nom}</td>
-            <td>{donneesLigne.prenom}</td>
-            <td>{donneesLigne.mail}</td>
-            <td>{donneesLigne.promo}</td>
-            <td>{donneesLigne.salle}</td>
-          </tr>
-        ))} */}
+                {participants.length === 0 ? (
+                    <></>
+                ) : (
+                    participants.map((participant) => (
+                        <tr key={participant.Mail}>
+                            {/* <td>{participant.equipe}</td> */}
+                            <td>{participant.Nom}</td>
+                            <td>{participant.Prenom}</td>
+                            <td>{participant.Mail}</td>
+                            <td>{participant.Filiere}</td>
+                            {/* <td>{participant.salle}</td> */}
+                        </tr>
+                    ))
+                )}
             </tbody>
         </table>
     );

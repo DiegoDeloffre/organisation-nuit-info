@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 
+import { getChercheurs } from '../../api/apiReact/apiUtilisateurs';
+
 function ListeAgentsLibres() {
     const [donnees, setDonnees] = useState([]);
+    const [chercheurs, setChercheurs] = useState([]);
 
-    /*useEffect(() => {
-      // Appel API vers la base de données
-      fetch("https://exemple.com/api/donnees")
-        .then((reponse) => reponse.json())
-        .then((donneesApi) => setDonnees(donneesApi));
-    }, []);*/
-
+    useEffect(() => {
+        const recupChercheurs = async () => {
+            let data = await getChercheurs();
+            setChercheurs(data)
+        };
+        recupChercheurs();
+    }, []);
     return (
         <table className="tableau-donnees">
             <thead>
@@ -21,28 +24,18 @@ function ListeAgentsLibres() {
                 </tr>
             </thead>
             <tbody>
-                <tr key={1}>
-                    <td>Nom 1</td>
-                    <td>Prénom 1</td>
-                    <td>nom1.prenom1@etu.univ-tours.fr</td>
-                    <td>DI5</td>
-                </tr>
-                <tr key={2}>
-                    <td>Nom 2</td>
-                    <td>Prénom 2</td>
-                    <td>nom2.prenom2@etu.univ-tours.fr</td>
-                    <td>DI4</td>
-                </tr>
-
-
-                {/* {donnees.map((donneesLigne) => (
-          <tr key={donneesLigne.id}>
-            <td>{donneesLigne.nom}</td>
-            <td>{donneesLigne.prenom}</td>
-            <td>{donneesLigne.mail}</td>
-            <td>{donneesLigne.promo}</td>
-          </tr>
-        ))} */}
+                {chercheurs.length === 0 ? (
+                    <></>
+                ) : (
+                    chercheurs.map((chercheur) => (
+                        <tr key={chercheur.IdChercheur}>
+                            <td>{chercheur.Nom}</td>
+                            <td>{chercheur.Prenom}</td>
+                            <td>{chercheur.Mail}</td>
+                            <td>{chercheur.Filiere}</td>
+                        </tr>
+                    ))
+                )}
             </tbody>
         </table>
     );

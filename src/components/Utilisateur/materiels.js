@@ -5,7 +5,9 @@ import Materiel from './materiel';
 
 import { Button } from '@material-ui/core';
 
-function Materiels({ nombreMateriels }) {
+import { getMateriels,modifierMaterielEquipe } from "../../api/apiReact/apiUtilisateurs";
+
+function Materiels() {
   const [valeur, setValeur] = useState(0);
   const [valeur1, setValeur1] = useState(0);
   const [valeur2, setValeur2] = useState(0);
@@ -14,16 +16,29 @@ function Materiels({ nombreMateriels }) {
   const [isButtonCliquable, setIsButtonCliquable] = useState(false);
   const [valeursOriginales, setValeursOriginales] = useState([]);
 
+  useEffect(() => {
+    recupMateriel();
+  }, []);
+
+  const recupMateriel = async () => {
+    let data = await getMateriels(4);
+    setValeur(parseInt(data[0].Multiprises, 10))
+    setValeur1(parseInt(data[0].Ecrans, 10))
+    setValeur2(parseInt(data[0].Claviers, 10))
+    setValeur3(parseInt(data[0].Souris, 10))
+    setValeur4(data[0].autres)
+    setValeursOriginales([parseInt(data[0].Multiprises, 10), parseInt(data[0].Ecrans, 10), parseInt(data[0].Claviers, 10), parseInt(data[0].Souris, 10), data[0].autres]);
+    setIsButtonCliquable(false);
+  };
+
+  const modifierMateriel = async () => {
+    await modifierMaterielEquipe(4, valeur, valeur1, valeur2, valeur3, valeur4);
+    recupMateriel()
+  };
+
   const handleChangeAutres = (event) => {
     setValeur4(event.target.value);
-};
-
-  useEffect(() => {
-    // Appel API pour récupérer les valeurs initiales des matériels
-    const valeursAPI = [0, 0, 0, 0, ""];
-    setValeursOriginales(valeursAPI);
-    setIsButtonCliquable(false);
-  }, []);
+  };
 
   function handleValeurChange(index, nouvelleValeur) {
     switch (index) {
@@ -39,6 +54,7 @@ function Materiels({ nombreMateriels }) {
       case 3:
         setValeur3(nouvelleValeur);
         break;
+      
       default:
         break;
     }
@@ -67,7 +83,7 @@ function Materiels({ nombreMateriels }) {
         <input className='materiel-input' type="text" value={valeur4} onChange={handleChangeAutres} />
       </div>
 
-      <Button variant="contained" color="primary" disabled={!isButtonCliquable}>
+      <Button variant="contained" color="primary" disabled={!isButtonCliquable} onClick={modifierMateriel}>
         Valider
       </Button>
     </div>

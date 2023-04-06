@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-function ListeEquipes() {
-    const [donnees, setDonnees] = useState([]);
+import { getEquipes } from "../../api/apiReact/apiAdministrateur";
 
-    /*useEffect(() => {
-      // Appel API vers la base de données
-      fetch("https://exemple.com/api/donnees")
-        .then((reponse) => reponse.json())
-        .then((donneesApi) => setDonnees(donneesApi));
-    }, []);*/
+function ListeEquipes() {
+    const [equipes, setEquipes] = useState([]);
+
+    useEffect(() => {
+        const recupEquipes = async () => {
+            let data = await getEquipes();
+            setEquipes(data)
+        };
+        recupEquipes();
+    }, []);
 
     return (
         <table className="tableau-donnees">
@@ -23,34 +26,20 @@ function ListeEquipes() {
                 </tr>
             </thead>
             <tbody>
-                <tr key={1}>
-                    <td>Equipe 1</td>
-                    <td>Nom 1 Prenom 1</td>
-                    <td>nom1.prenom1@etu.univ-tours.fr</td>
-                    <td>4</td>
-                    <td>DI5</td>
-                    <td>Lovelace</td>
-                </tr>
-                <tr key={2}>
-                    <td>Equipe 2</td>
-                    <td>Nom 2 Prénom 2</td>
-                    <td>nom2.prenom2@etu.univ-tours.fr</td>
-                    <td>400</td>
-                    <td>DI4</td>
-                    <td>Lovelace</td>
-                </tr>
-
-
-                {/* {donnees.map((donneesLigne) => (
-          <tr key={donneesLigne.id}>
-            <td>{donneesLigne.equipe}</td>
-            <td>{donneesLigne.nom}</td>
-            <td>{donneesLigne.prenom}</td>
-            <td>{donneesLigne.mail}</td>
-            <td>{donneesLigne.promo}</td>
-            <td>{donneesLigne.salle}</td>
-          </tr>
-        ))} */}
+                {equipes.length === 0 ? (
+                    <></>
+                ) : (
+                    equipes.map((equipe) => (
+                        <tr key={equipe.Equipe.IdEquipe}>
+                            <td>{equipe.Equipe.Nom}</td>
+                            <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
+                            <td>{equipe.Equipe.MailChef}</td>
+                            <td>{equipe.Membres.length + 1}</td>
+                            <td>{equipe.Membres[0].filiere}</td>
+                            {/* <td>{equipe.Equipe.Salle}</td> */}
+                        </tr>
+                    ))
+                )}
             </tbody>
         </table>
     );

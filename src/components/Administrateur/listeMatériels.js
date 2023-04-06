@@ -4,44 +4,56 @@ import ReactToPrint from "react-to-print";
 
 import { Button } from '@material-ui/core';
 
-function ListeMatériels() {
-    const [donnees, setDonnees] = useState([]);
+import { getMaterielsGlobal, getMaterielsParEquipe } from "../../api/apiReact/apiAdministrateur";
 
-    /*useEffect(() => {
-      // Appel API vers la base de données
-      fetch("https://exemple.com/api/donnees")
-        .then((reponse) => reponse.json())
-        .then((donneesApi) => setDonnees(donneesApi));
-    }, []);*/
+function ListeMatériels() {
+    const [global, setGlobal] = useState([]);
+    const [parEquipe, setParEquipe] = useState([]);
+
+    useEffect(() => {
+        const recupGlobal = async () => {
+            let data = await getMaterielsGlobal();
+            console.log(data)
+            setGlobal(data)
+        };
+        const recupParEquipe = async () => {
+            let data = await getMaterielsParEquipe();
+            console.log(data)
+            setParEquipe(data);
+        };
+        recupGlobal();
+        recupParEquipe();
+    }, []);
 
     return (
         <div className="materiel-wrapper">
             <h2>Nombre total de matériels</h2>
             <div className="materiel-inner">
                 <ul>
-                    <li>Multiprises : 1</li>
+                    <li>Multiprises : {global.length !== 0 && global.Basiques[0].NbTotalMulti}</li>
                 </ul>
                 <ul>
-                    <li>Ecrans : 1</li>
+                    <li>Ecrans : {global.length !== 0 && global.Basiques[0].NbTotalEcran}</li>
                 </ul>
                 <ul>
-                    <li>Claviers : 1</li>
+                    <li>Claviers : {global.length !== 0 && global.Basiques[0].NbTotalClavier}</li>
                 </ul>
                 <ul>
-                    <li>Souris : 1</li>
+                    <li>Souris : {global.length !== 0 && global.Basiques[0].NbTotalSouris}</li>
                 </ul>
             </div>
             <h2>Demandes spécifiques</h2>
             <div className="materiel-inner">
-                <ul>
-                    <li>Vidéoprojecteurs</li>
-                </ul>
-                <ul>
-                    <li>dfdfgdfg</li>
-                </ul>
-                <ul>
-                    <li>Clavibgfbebfggrs</li>
-                </ul>
+                {global.length === 0 ? (
+                    <></>
+                ) : (
+                    global.Autres.map((materiel) => (
+                        <ul key={materiel.Nom}>
+                            <li>{materiel.autres}</li>
+                        </ul>
+                    ))
+                )}
+
             </div>
 
             <div className="materiel-print">
@@ -59,6 +71,33 @@ function ListeMatériels() {
                         </tr>
                     </thead>
                     <tbody>
+                        {parEquipe.length === 0 ? (
+                            <></>
+                        ) : (
+                            parEquipe.map((materiel) => (
+                                <tr key={materiel.IdEquipe}>
+                                    <td>{materiel.Nom}</td>
+                                    <td></td>
+                                    <td>
+                                        <ul>
+                                            <li>Multiprises : {materiel.Multiprises}</li>
+                                            <li>Ecrans : {materiel.Ecrans}</li>
+                                            <li>Claviers : {materiel.Claviers}</li>
+                                            <li>Souris : {materiel.Souris}</li>
+                                        </ul>
+                                        <ul>
+                                            {materiel.autres !== "" && (
+                                                <li>{materiel.autres}</li>
+                                            )}
+
+                                        </ul>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            ))
+                        )}
                         <tr key={1}>
                             <td>Equipe 1</td>
                             <td></td>

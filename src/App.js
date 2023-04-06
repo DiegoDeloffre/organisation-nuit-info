@@ -31,6 +31,8 @@ export default function App() {
     // Vérifiez les informations d'authentification de l'utilisateur ici.
     // Si l'utilisateur est authentifié, stockez les informations dans le stockage local.
     localStorage.setItem("loggedIn", true);
+    localStorage.setItem("UserType", "admin");
+    localStorage.setItem("UserId", 23);
     setLoggedIn(true);
   }
 

@@ -3,21 +3,50 @@ import "../../styles/Administrateur/Pages/AffectationSalles.css";
 
 import { Button } from '@material-ui/core';
 
-function AffectationSalles() {
-    const [donnees, setDonnees] = useState([]);
-    const [salle, setSalle] = useState("Avosti");
+import { getEquipes } from "../../api/apiReact/apiAdministrateur";
+import { getSalles } from "../../api/apiReact/apitools";
 
-    /*useEffect(() => {
-      // Appel API vers la base de données
-      fetch("https://exemple.com/api/donnees")
-        .then((reponse) => reponse.json())
-        .then((donneesApi) => setDonnees(donneesApi));
-    }, []);*/
+function AffectationSalles() {
+    const [salle, setSalle] = useState("Avosti");
+    const [salles, setSalles] = useState([]);
+
+    const [equipes, setEquipes] = useState([]);
+
+    useEffect(() => {
+        const recupEquipes = async () => {
+            let data = await getEquipes();
+            setEquipes(data)
+        };
+        const recupSalles = async () => {
+            let data = await getSalles();
+            setSalles(data)
+        };
+        recupSalles();
+        recupEquipes();
+    }, []);
 
     const handleSalleChange = (event) => {
         setSalle(event.target.value);
     };
- 
+
+    function handleFirstChoice(choice) {
+        switch (choice) {
+            case "0":
+                return "Salle équipée nécessaire"
+        }
+    }
+
+    function handleSecondChoice(choice) {
+        switch (choice) {
+            case "0":
+                return "Seul dans la salle"
+            case "1":
+                return "Avec d'autres équipes"
+            case "2":
+                return "Pas de préférence"
+        }
+    }
+
     function handleConfirmer() {
         // Code à exécuter lorsque l'utilisateur clique sur le bouton "Valider"
     }
@@ -30,6 +59,7 @@ function AffectationSalles() {
                     <tr>
                         <th>Equipe</th>
                         <th>Responsable</th>
+                        <th>Mail</th>
                         <th>Nombre de membres</th>
                         <th>Promo majoritaire</th>
                         <th>Salle équipée ?</th>
@@ -38,48 +68,33 @@ function AffectationSalles() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr key={1}>
-                        <td>Equipe 1</td>
-                        <td>Nom 1 Prénom 1</td>
-                        <td>4</td>
-                        <td>DI5</td>
-                        <td>Oui</td>
-                        <td>Non</td>
-                        <td>
-                            <select value={salle} onChange={handleSalleChange}>
-                                <option value="Avosti">Avosti</option>
-                                <option value="Lovelace">Lovelace</option>
-                                <option value="Windows A">Windows A</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr key={2}>
-                        <td>Equipe 1</td>
-                        <td>Nom 1 Prénom 1</td>
-                        <td>8</td>
-                        <td>DI5</td>
-                        <td>Non</td>
-                        <td>Oui</td>
-                        <td>
-                            <select value={salle} onChange={handleSalleChange}>
-                                <option value="Avosti">Avosti</option>
-                                <option value="Lovelace">Lovelace</option>
-                                <option value="Windows A">Windows A</option>
-                            </select>
-                        </td>
-                    </tr>
-
-
-                    {/* {donnees.map((donneesLigne) => (
-          <tr key={donneesLigne.id}>
-            <td>{donneesLigne.equipe}</td>
-            <td>{donneesLigne.nom}</td>
-            <td>{donneesLigne.prenom}</td>
-            <td>{donneesLigne.mail}</td>
-            <td>{donneesLigne.promo}</td>
-            <td>{donneesLigne.salle}</td>
-          </tr>
-        ))} */}
+                    {equipes.length === 0 ? (
+                        <></>
+                    ) : (
+                        equipes.map((equipe) => (
+                            
+                            <tr key={equipe.Equipe.IdEquipe}>
+                                <td>{equipe.Equipe.Nom}</td>
+                                <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
+                                <td>{equipe.Equipe.MailChef}</td>
+                                <td>{equipe.Membres.length + 1}</td>
+                                <td>{equipe.Membres[0].filiere}</td>
+                                <td>{handleFirstChoice(equipe.Equipe.SalleEquipe)}</td>
+                                <td>{handleSecondChoice(equipe.Equipe.Isole)}</td>
+                                <td>
+                                    <select value={salle} onChange={handleSalleChange}>
+                                        {salles.length === 0 ? (
+                                            <></>
+                                        ) : (
+                                            salles.map((salle) => (
+                                                <option key={salle.IdSalle} value={salle.Nom}>{salle.Nom}</option>
+                                            ))
+                                        )}
+                                    </select>
+                                </td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
 

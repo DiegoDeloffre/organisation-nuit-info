@@ -1,12 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Button } from '@material-ui/core';
 
-function AjouterMembre({ onClose }) {
+import { getFilieres } from "../../api/apiReact/apitools";
+import { ajouterMembreEquipe } from "../../api/apiReact/apiUtilisateurs";
+
+function AjouterMembre({ onClose, updateMembre }) {
     const [nom, setNom] = useState("");
     const [prenom, setPrenom] = useState("");
     const [mail, setMail] = useState("");
-    const [filiere, setFiliere] = useState("");
+    const [filiere, setFiliere] = useState("DI5");
+    const [filieres, setFilieres] = useState([]);
+
+    useEffect(() => {
+        const recupFilieres = async () => {
+            let data = await getFilieres();
+            console.log(data)
+            
+        };
+        recupFilieres();
+    }, []);
+
+    const ajouterMembre = async () => {
+        console.log(nom)
+        console.log(prenom)
+        console.log(mail)
+        console.log(filiere)
+        await ajouterMembreEquipe(4, nom, prenom, mail, filiere);
+        updateMembre()
+        onClose();
+    };
 
     const handleNomChange = (event) => {
         setNom(event.target.value);
@@ -22,13 +45,6 @@ function AjouterMembre({ onClose }) {
 
     const handleFiliereChange = (event) => {
         setFiliere(event.target.value);
-    };
-
-    const handleAjouter = () => {
-        // Effectuer une action d'ajout de membre avec les données du formulaire
-        // ...
-        // Fermer la popup
-        onClose();
     };
 
     return (
@@ -56,7 +72,7 @@ function AjouterMembre({ onClose }) {
                         </select>
                     </div>
                 </div>
-                <Button variant="contained" color="primary" onClick={handleAjouter}>
+                <Button variant="contained" color="primary" onClick={ajouterMembre}>
                     Ajouter
                 </Button>
             </div>

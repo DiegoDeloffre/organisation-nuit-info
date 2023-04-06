@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Administrateur/Components/listeRecrutement.css";
 
+import { getChercheurs, getEquipesRecrutant } from '../../api/apiReact/apiUtilisateurs';
+
+
 function ListeRecrutement() {
     const [donnees, setDonnees] = useState([]);
 
-    /*useEffect(() => {
-      // Appel API vers la base de données
-      fetch("https://exemple.com/api/donnees")
-        .then((reponse) => reponse.json())
-        .then((donneesApi) => setDonnees(donneesApi));
-    }, []);*/
+    const [chercheurs, setChercheurs] = useState([]);
+    const [equipes, setEquipesQuiRecrutent] = useState([]);
+
+    useEffect(() => {
+        const recupChercheurs = async () => {
+            let data = await getChercheurs();
+            setChercheurs(data)
+        };
+        const getEquipesQuiRecrutent = async () => {
+            let data = await getEquipesRecrutant();
+            setEquipesQuiRecrutent(data);
+        };
+        getEquipesQuiRecrutent();
+        recupChercheurs();
+    }, []);
 
     return (
         <div className="recrutement-wrapper">
@@ -19,32 +31,29 @@ function ListeRecrutement() {
                     <thead>
                         <tr>
                             <th>Equipe</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
+                            <th>Responsable</th>
                             <th>Mail</th>
-                            <th>Promo</th>
+                            <th>Promo Majoritaire</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr key={1}>
-                            <td>Equipe 1</td>
-                            <td>Nom 1</td>
-                            <td>Prénom 1</td>
-                            <td>nom1.prenom1@etu.univ-tours.fr</td>
-                            <td>DI5</td>
-                        </tr>
-                        <tr key={2}>
-                            <td>Equipe 2</td>
-                            <td>Nom 2</td>
-                            <td>Prénom 2</td>
-                            <td>nom2.prenom2@etu.univ-tours.fr</td>
-                            <td>DI4</td>
-                        </tr>
+                        {equipes.length === 0 ? (
+                            <></>
+                        ) : (
+                            equipes.map((equipe) => (
+                                <tr key={equipe.Equipe.IdEquipe}>
+                                    <td>{equipe.Equipe.Nom}</td>
+                                    <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
+                                    <td>{equipe.Equipe.MailChef}</td>
+                                    <td>{equipe.Membres[0].filiere}</td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>
             <div className="recrutement-inner">
-                <h2>Agents Libres</h2>
+                <h2>Chercheurs</h2>
                 <table className="tableau-donnees">
                     <thead>
                         <tr>
@@ -55,18 +64,18 @@ function ListeRecrutement() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr key={1}>
-                            <td>Nom 1</td>
-                            <td>Prénom 1</td>
-                            <td>nom1.prenom1@etu.univ-tours.fr</td>
-                            <td>DI5</td>
-                        </tr>
-                        <tr key={2}>
-                            <td>Nom 2</td>
-                            <td>Prénom 2</td>
-                            <td>nom2.prenom2@etu.univ-tours.fr</td>
-                            <td>DI4</td>
-                        </tr>
+                        {chercheurs.length === 0 ? (
+                            <></>
+                        ) : (
+                            chercheurs.map((chercheur) => (
+                                <tr key={chercheur.IdChercheur}>
+                                    <td>{chercheur.Nom}</td>
+                                    <td>{chercheur.Prenom}</td>
+                                    <td>{chercheur.Mail}</td>
+                                    <td>{chercheur.Filiere}</td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

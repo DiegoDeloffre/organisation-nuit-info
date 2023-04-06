@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
+import { login } from '../../api/apiReact/apitools';
 
-
-function Connexion({handleLogin, handleLogout}) {
+function Connexion({ handleLogin, handleLogout }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -14,9 +14,9 @@ function Connexion({handleLogin, handleLogout}) {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
+    const handleSubmit = async (event) => {
+        let data = await login(email, password);
+        // handle redirection according to user type
     };
 
     return (<div className='global'>

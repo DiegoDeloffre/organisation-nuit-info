@@ -1,6 +1,6 @@
 import React from "react";
 
-function Contacter({ onClose, mail }) {
+function Contacter({ onClose, mail, nom, prenom }) {
 
     return (
         <div className="popup-container">
@@ -10,7 +10,7 @@ function Contacter({ onClose, mail }) {
                 <h2>NomEquipe</h2>
                 <div className="popup-inner">
                     <div>
-                        Nom Prénom
+                        {nom} {prenom}
                     </div>
                     <div>
                         {mail}

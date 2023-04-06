@@ -1,30 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../styles/Utilisateur/Components/profilAgent.css"
 
 import ModifierProfilEquipe from '../Popup/ModifierProfilEquipe';
-
+import { getProfilChercheur, modifierProfilChercheur } from '../../api/apiReact/apiUtilisateurs';
 import editIcon from '../../assets/pencil.png';
 
-function ProfilAgent({ infoAgent}) {
+function ProfilAgent({ infoAgent }) {
   const [showPopup, setShowPopup] = useState(false);
-  const [description, setDescription] = useState(
-    "Description de l'équipe Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui."
-  );
+  const [description, setDescription] = useState("");
+  
+  useEffect(() => {
+    console.log("Lesgo")
+    recupProfilChercheur();
+  }, []);
 
-  const handleSave = (newDescription) => {
-    setDescription(newDescription);
-    setShowPopup(false);
+
+  const recupProfilChercheur = async () => {
+    let data = await getProfilChercheur(23);
+    setDescription(data);
   };
+
+
+  const modifierProfil = async (newDescription) => {
+    console.log(newDescription)
+    await modifierProfilChercheur(23, newDescription);
+    recupProfilChercheur();
+  };
+
+
   return (
     <div className='profil-agent'>
       <div className="edit-icon-container">
-            <img
-                className="edit-icon"
-                src={editIcon}
-                alt="Edit icon"
-                onClick={() => setShowPopup(true)}
-            />
-        </div>
+        <img
+          className="edit-icon"
+          src={editIcon}
+          alt="Edit icon"
+          onClick={() => setShowPopup(true)}
+        />
+      </div>
       <h2>Profil</h2>
       <p>{infoAgent}</p>
       <p>{description}</p>
@@ -32,7 +45,7 @@ function ProfilAgent({ infoAgent}) {
         <ModifierProfilEquipe
           title="Profil Equipe"
           value={description}
-          onSave={handleSave}
+          onSave={modifierProfil}
           onClose={() => setShowPopup(false)}
         />
       )}

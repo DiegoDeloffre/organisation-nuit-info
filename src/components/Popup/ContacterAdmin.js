@@ -1,6 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import { getAdmin } from "../../api/apiReact/apitools";
 
 function ContacterAdmin({ onClose }) {
+
+    const [administrateurs, setAdmin] = useState([]);
+
+    useEffect(() => {
+        const recupContactsAdmin = async () => {
+            let data = await getAdmin();
+            setAdmin(data)
+        };
+        recupContactsAdmin();
+    }, []);
 
     return (
         <div className="popup-container">
@@ -8,12 +20,15 @@ function ContacterAdmin({ onClose }) {
             <div className="popup">
                 <span className="popup-close" onClick={onClose}></span>
                 <h2>Liste des admins</h2>
-                <div>
-                    Nom Prénom Promo Mail
-                </div>
-                <div>
-                    Nom Prénom Promo Mail
-                </div>
+                {administrateurs.length === 0 ? (
+                    <></>
+                ) : (
+                    administrateurs.map((admin) => (
+                        <div>
+                            {admin.Nom} {admin.Prenom} {admin.Filiere} {admin.Mail}
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );

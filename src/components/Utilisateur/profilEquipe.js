@@ -1,12 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/Utilisateur/Components/profilEquipe.css"
 
 import ModifierProfilEquipe from "../Popup/ModifierProfilEquipe";
 
 import editIcon from '../../assets/pencil.png';
 
-function ProfilEquipe({profil,setProfil}) {
+import { getProfilEquipe, modifierProfilEquipe } from "../../api/apiReact/apiUtilisateurs";
+
+function ProfilEquipe() {
     const [showPopup, setShowPopup] = useState(false);
+    const [profil, setProfil] = useState("");
+
+    useEffect(() => {
+        recupProfil();
+    }, []);
+
+    const recupProfil = async () => {
+        let data = await getProfilEquipe(4);
+        setProfil(data[0].Description);
+    };
+
+    const modifierProfil = async (description) => {
+        await modifierProfilEquipe(4, description);
+        recupProfil();
+    };
     
 
     const handleSave = (newDescription) => {
@@ -29,7 +46,7 @@ function ProfilEquipe({profil,setProfil}) {
             <ModifierProfilEquipe
                 title="Profil Equipe"
                 value={profil}
-                onSave={handleSave}
+                onSave={modifierProfil}
                 onClose={() => setShowPopup(false)}
             />
         )}

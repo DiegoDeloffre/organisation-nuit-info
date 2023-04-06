@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../styles/Utilisateur/Components/equipe.css"
 
 import Membre from "./membre"
@@ -10,30 +10,40 @@ import { Button } from '@material-ui/core';
 import editIcon from '../../assets/pencil.png';
 import { nomMembre, prenomMembre, filiereMembre } from "../../assets/mockElements";
 
-function Equipe({name, setName, membres}) {
+import { getMembres, modifierNomEquipe } from '../../api/apiReact/apiUtilisateurs';
+
+function Equipe() {
     const [afficherPopup, setAfficherPopup] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
-    
-    const handleAfficherPopup = () => {
-        setAfficherPopup(true);
+    const [membres, setMembres] = useState([])
+    const [chef, setChef] = useState([])
+    const [name, setName] = useState("L'équipe");
+
+    useEffect(() => {
+        const recupMembres = async () => {
+            let data = await getMembres(4);
+            setMembres(data.Membres)
+            setChef(data.Chef)
+        };
+        recupMembres();
+        /* recupNomEquipe(): */
+    }, []);
+
+    const recupNomEquipe = async () => {
+        /* let data = await getNomEquipe(4);
+        setName(data.Nom) */
     };
 
-    const handleClosePopup = () => {
-        setAfficherPopup(false);
+    const modifNomEquipe = async (nom) => {
+        await modifierNomEquipe(4, nom);
+        /* recupNomEquipe() */
     };
 
-    const handleAfficherPopupEquipe = () => {
-        setShowPopup(true);
+    const updateMembres = async () => {
+        let data = await getMembres(4);
+        setMembres(data.Membres)
     };
 
-    const handleClosePopupEquipe = () => {
-        setShowPopup(false);
-    };
-
-    const handleSave = (newName) => {
-        setName(newName);
-        setShowPopup(false);
-    };
     return (<div className="equipe">
         <div className="equipe-members">
             <div className="edit-icon-container">
@@ -41,30 +51,42 @@ function Equipe({name, setName, membres}) {
                     className="edit-icon"
                     src={editIcon}
                     alt="Edit icon"
-                    onClick={handleAfficherPopupEquipe}
+                    onClick={() => setShowPopup(true)}
                 />
             </div>
             <h2>{name}</h2>
-            <Membre premier={true} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
-            <Membre premier={false} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
-            <Membre premier={false} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
-            <Membre premier={false} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
-            <Membre premier={false} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
-            <Membre premier={false} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
-            <Membre premier={false} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
-            <Membre premier={false} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
-            <Membre premier={false} nomMembre={nomMembre} prenomMembre={prenomMembre} filiereMembre={filiereMembre}/>
+            {chef.length === 0 ? (
+                <></>
+            ) : (
+                <Membre premier={true} nomMembre={chef[0].Nom} prenomMembre={chef[0].Prenom} filiereMembre={chef[0].Filiere} />
+            )}
 
+            {membres.length === 0 ? (
+                <></>
+            ) : (
+                membres.map((membre) => (
+                    <React.Fragment key={membre.IdMembre}>
+                        <Membre
+                            idMembre={membre.IdMembre}
+                            premier={false}
+                            nomMembre={membre.Nom}
+                            prenomMembre={membre.Prenom}
+                            filiereMembre={membre.filiere}
+                            updateMembre={updateMembres}
+                        />
+                    </React.Fragment>
+                ))
+            )}
         </div>
 
         <div className="equipe-button">
-            <Button variant="contained" color="primary" onClick={handleAfficherPopup}>
+            <Button variant="contained" color="primary" onClick={() => setAfficherPopup(false)}>
                 Ajouter
             </Button>
         </div>
 
-        {afficherPopup && <AjouterMembre onClose={handleClosePopup} />}
-        {showPopup && <ModifierNomEquipe value={name} onSave={handleSave} onClose={handleClosePopupEquipe} />}
+        {afficherPopup && <AjouterMembre onClose={() => setAfficherPopup(false)} updateMembre={updateMembres}/>}
+        {showPopup && <ModifierNomEquipe value={name} onClose={() => setShowPopup(false)} onSave={modifierNomEquipe}/>}
 
     </div>
     )

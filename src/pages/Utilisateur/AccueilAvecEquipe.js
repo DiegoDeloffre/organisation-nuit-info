@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../styles/Utilisateur/Pages/AccueilAvecEquipe.css"
 
 import Equipe from "../../components/Utilisateur/equipe"
@@ -10,17 +10,19 @@ import { Button, Switch } from '@material-ui/core';
 
 import { description } from '../../assets/mockElements';
 
+
+
 function AccueilAvecEquipe() {
     const [recrute, setRecrute] = useState(false);
-    const [salle, setSalle] = useState("");
-    const [profil, setProfil] = useState(description);
-    const [name, setName] = useState("L'équipe");
-    const [membres, setMembres] = useState([])
-    const [nombreMateriels, setNombreMateriels] = useState([])
-    const [premierChoix, setPremierChoix] = useState('Non');
-    const [deuxiemeChoix, setDeuxiemeChoix] = useState('Peu importe');
-    const [premierChoixOriginal, setPremierChoixOriginal] = useState('Non');
-    const [deuxiemeChoixOriginal, setDeuxiemeChoixOriginal] = useState('Peu importe');
+    
+    useEffect(() => {
+        
+    }, []);
+
+    const recupRecrute = async () => {
+        //let data = await getMateriels(4);
+        
+    };
 
     const toggleRecrute = () => {
         setRecrute(!recrute);
@@ -31,7 +33,7 @@ function AccueilAvecEquipe() {
 
         <div className='global-inner'>
             <div className="left">
-                <Equipe name={name} setName={setName} membres={membres}/>
+                <Equipe />
                 <div className="recruter" >
                     <div className='interrupteur-wrapper'>
                         <h3>Souhaitez-vous recruter d'autres membres ?</h3>
@@ -51,10 +53,10 @@ function AccueilAvecEquipe() {
             </div>
 
             <div className="right">
-                <ProfilEquipe profil={profil} setProfil={setProfil}/>
+                <ProfilEquipe/>
                 <div className="bottom">
-                    <Materiel nombreMateriels={nombreMateriels}/>
-                    <Salle salle={salle} premierChoix={premierChoix} setPremierChoix={setPremierChoix} deuxiemeChoix={deuxiemeChoix} setDeuxiemeChoix={setDeuxiemeChoix} premierChoixOriginal={premierChoixOriginal} deuxiemeChoixOriginal={deuxiemeChoixOriginal} />
+                    <Materiel />
+                    <Salle />
                 </div>
             </div>
         </div>
