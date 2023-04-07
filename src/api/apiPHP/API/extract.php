@@ -72,8 +72,26 @@ if(!empty($_POST["action"])){
         case "RecupSalles":
             echo json_encode(getAllSalles());
             break;
-        case "recupContactsOrga":
+        case "RecupContactsOrga":
             echo json_encode(getContactOrga());
+            break;
+        case "RecupInfosChercheur":
+            if(!empty($_POST["IdUser"])){
+                echo json_encode(recupInfosChercheur($_POST["IdUser"]));
+            }
+            break;
+        case "RecupNomEquipe":
+            if(!empty($_POST["IdUser"])){
+                echo json_encode(getNomEquipe($_POST["IdUser"]));
+            }
+            break;
+        case "RecupSalleEquipe":
+            if(!empty($_POST["IdUser"])){
+                echo json_encode(getSalleEquipe($_POST["IdUser"]));
+            }
+            break;
+        case "getBloque":
+            echo json_encode(getBloque());
             break;
     }
 

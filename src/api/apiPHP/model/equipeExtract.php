@@ -90,6 +90,18 @@ function recupListeEquipe(){
 	$enreg = array();
 	foreach($req->fetchAll(PDO::FETCH_ASSOC) as $foo){
 		$enreg[$i]["Equipe"]= $foo;
+
+		$sqlF="SELECT filiere.Nom AS PromoMaj 
+		FROM filiere INNER JOIN membre WHERE IdEquipe = :IdEquipe AND filiere.IdFiliere = membre.IdFiliere
+		GROUP BY membre.IdFiliere
+		ORDER BY COUNT(*) DESC
+		LIMIT 1;";
+		$reqF = $bd->prepare($sqlF);
+		$marqueur=array('IdEquipe'=>$enreg[$i]["Equipe"]["IdEquipe"]);
+		$reqF->execute($marqueur);
+		$enreg[$i]["Equipe"]["PromoMaj"]=$reqF->fetchAll(PDO::FETCH_ASSOC)[0]["PromoMaj"];
+		$reqF->closeCursor();
+
 		$sqlM="SELECT DISTINCT membre.IdMembre,membre.Nom,membre.Prenom,membre.Mail,filiere.Nom AS 'filiere' FROM membre INNER JOIN filiere INNER JOIN equipe WHERE membre.IdEquipe=equipe.IdEquipe AND membre.IdFiliere = filiere.IdFiliere AND equipe.IdEquipe = :IdEquipe";
 		$reqM = $bd->prepare($sqlM);
 		$marqueur=array('IdEquipe'=>$enreg[$i]["Equipe"]["IdEquipe"]);
@@ -153,5 +165,30 @@ function getAllSalles(){
 	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
 	$req->closeCursor();
 	return $enreg;
+}
+
+function getNomEquipe($IdUser){
+	global $bd;
+    $sql="SELECT DISTINCT equipe.Nom FROM equipe INNER JOIN chef INNER JOIN users WHERE chef.IdUser = :IdUser AND equipe.IdChef = chef.IdChef;
+    ";
+	$marqueur=array('IdUser'=>$IdUser);
+	$req = $bd->prepare($sql);
+	$req->execute($marqueur);
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $enreg;
+}
+
+function getSalleEquipe($IdUser){
+	global $bd;
+    $sql="SELECT DISTINCT salle.Nom FROM equipe INNER JOIN chef INNER JOIN users INNER JOIN salle WHERE salle.IdSalle = equipe.IdSalle AND chef.IdUser = :IdUser AND equipe.IdChef = chef.IdChef;
+    ";
+	$marqueur=array('IdUser'=>$IdUser);
+	$req = $bd->prepare($sql);
+	$req->execute($marqueur);
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $enreg;
+
 }
 ?>

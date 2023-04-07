@@ -88,6 +88,14 @@ if(!empty($_POST["action"])){
                 UpdateTeamSalle($_POST["IdUser"],$_POST["IdSalle"]);
             }
             break;
+        case "ModifierProfilChercheur":
+            if(!empty($_POST["IdUser"]) && !empty($_POST["Description"])){
+                UpdateProfilChercheur($_POST["IdUser"],$_POST["Description"]);
+            }
+            break;
+        case "BloquerInscriptions":
+            setBloque();
+            break;
             
     }
 

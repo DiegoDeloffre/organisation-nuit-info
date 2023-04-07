@@ -58,9 +58,35 @@ function deleteUser($idUser){
 	$req->execute($marqueur);
 	$req->closeCursor();
 }
-/*
-function setBloque(){
 
+function UpdateProfilChercheur($IdUser,$Description){
+	global $bd;
+    $sql="UPDATE chercheur SET Description=:Description WHERE IdUser=:IdUser ";
+	$marqueur=array('Description'=>$Description,'IdUser'=>$IdUser);
+	$req = $bd->prepare($sql);
+	$req->execute($marqueur);
+	$req->closeCursor();
 }
-*/
+
+function setBloque(){
+	global $bd;
+    $sql="SELECT * FROM bloquerInscription";
+	$req = $bd->prepare($sql);
+	$req->execute();
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+
+	if(empty($enreg)){
+		$sql="INSERT INTO bloquerInscription (bloque) VALUES (1)";
+		$req2 = $bd->prepare($sql);
+		$req2->execute();
+		$req2->closeCursor();
+	} else{
+		$sql="DELETE FROM bloquerInscription WHERE bloque = 1";
+		$req3 = $bd->prepare($sql);
+		$req3->execute();
+		$req3->closeCursor();
+	}
+}
+
 ?>
