@@ -49,8 +49,10 @@ if(!empty($_POST["action"])){
         case "RecupChercheurs":
             echo json_encode(recupChercheur());
             break;
-        case "AjouterOrganisateur":
-            //
+        case "RecupInfosEquipe":
+            if(!empty($_POST["IdUser"])){
+                echo json_encode(getInfosEquipe($_POST["IdUser"]));
+            }
             break;
         case "RecupListeParticipants":
             echo json_encode(recupListeParticipant());

@@ -91,12 +91,9 @@ function setBloque(){
 
 function resetTable(){
     global $bd;
-    $sql="DELETE FROM demande
-    UNION
-    DELETE FROM bloquerInscription
-    UNION
-    DELETE FROM users
-    WHERE IdType != 1;";
+    $sql="DELETE FROM demande;
+	DELETE FROM bloquerInscription;
+	DELETE FROM users WHERE IdType != 1;";
     $req = $bd->prepare($sql);
     $req->execute();
     $req->closeCursor();

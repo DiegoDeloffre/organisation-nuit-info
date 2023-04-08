@@ -150,13 +150,15 @@ function compare_user_lists($json1) {
     $list2 = json_decode(recupNameParticipants(), true);
     $not_in_first_list = array();
     $not_in_second_list = array();
-
     foreach ($list1 as $user1) {
         $found = false;
         foreach ($list2 as $user2) {
-            if (strtolower($user1["prenom"]) == strtolower($user2["prenom"]) &&
+            if ( (!empty($user1["prenom"]) && !empty($user2["prenom"]) &&
+			!empty($user1["nom"]) & !empty($user2["nom"]) &&
+			!empty($user1["mail"]) & !empty($user2["mail"])) && 
+			(strtolower($user1["prenom"]) == strtolower($user2["prenom"]) &&
 			strtolower($user1["nom"]) == strtolower($user2["nom"]) &&
-			strtolower($user1["mail"]) == strtolower($user2["mail"])) {
+			strtolower($user1["mail"]) == strtolower($user2["mail"]))) {
                 $found = true;
                 break;
             }
@@ -168,9 +170,12 @@ function compare_user_lists($json1) {
     foreach ($list2 as $user2) {
         $found = false;
         foreach ($list1 as $user1) {
-            if (strtolower($user1["prenom"]) == strtolower($user2["prenom"]) &&
+            if ((!empty($user1["prenom"]) && !empty($user2["prenom"]) &&
+			!empty($user1["nom"]) & !empty($user2["nom"]) &&
+			!empty($user1["mail"]) & !empty($user2["mail"])) && 
+			(strtolower($user1["prenom"]) == strtolower($user2["prenom"]) &&
 			strtolower($user1["nom"]) == strtolower($user2["nom"]) &&
-			strtolower($user1["mail"]) == strtolower($user2["mail"])) {
+			strtolower($user1["mail"]) == strtolower($user2["mail"]))) {
                 $found = true;
                 break;
             }

@@ -72,6 +72,14 @@ function recupEquipeRecrutant(){
 		$reqM->execute($marqueur);
 		$enreg[$i]["Membres"]=$reqM->fetchAll(PDO::FETCH_ASSOC);
 		$reqM->closeCursor();
+
+		$sqlD="SELECT IdChercheur FROM demande WHERE IdEquipe= :IdEquipe";
+		$reqD = $bd->prepare($sqlD);
+		$marqueur=array('IdEquipe'=>$enreg[$i]["Equipe"]["IdEquipe"]);
+		$reqD->execute($marqueur);
+		$enreg[$i]["Demandes"]=$reqD->fetchAll(PDO::FETCH_ASSOC);
+		$reqD->closeCursor();
+
 		$i++;
 	}
 	$req->closeCursor();
@@ -213,4 +221,16 @@ function getSalleEquipe($IdUser){
 	return $enreg;
 
 }
+
+function getInfosEquipe($IdUser){
+	global $bd;
+	$sql="SELECT DISTINCT equipe.Nom, equipe.Description, chef.Nom AS 'NomChef', chef.Prenom AS 'PrenomChef', users.Mail AS 'MailChef',salle.Nom AS 'Salle' FROM equipe INNER JOIN chef INNER JOIN users INNER JOIN salle WHERE chef.IdChef = equipe.IdChef AND users.IdUser = chef.IdUser  AND chef.IdUser =:IdUser AND salle.IdSalle = equipe.IdSalle;";
+	$marqueur = array('IdUser'=>$IdUser);
+	$req = $bd->prepare($sql);
+	$req->execute($marqueur);
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $enreg;
+}
+
 ?>
