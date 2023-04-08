@@ -68,9 +68,9 @@ if(!empty($_POST["action"])){
             }    
             break;
         case "AjouterOrganisateur":
-            if(!empty($_POST["Mail"]) && !empty($_POST["MDP"])){
+            if(!empty($_POST["Mail"]) && !empty($_POST["MDP"]) && !empty($_POST["Type"])){
                 
-                CreateNewOrganisateur($_POST["Mail"],$_POST["MDP"]);
+                CreateNewOrganisateur($_POST["Mail"],$_POST["MDP"],$_POST["Type"]);
             }    
             break;
         case "AjouterDemande":
@@ -95,6 +95,11 @@ if(!empty($_POST["action"])){
             break;
         case "BloquerInscriptions":
             setBloque();
+            break;
+        case "modifierEquipeRecrute":
+            if(!empty($_POST["IdUser"])){
+                echo json_encode(UpdateTeamRecrute($_POST["IdUser"]));
+            }
             break;
             
     }

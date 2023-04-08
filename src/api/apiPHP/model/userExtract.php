@@ -74,7 +74,7 @@ function recupListeParticipant(){
 	INNER JOIN equipe ON equipe.IdChef = chef.IdChef
 	INNER JOIN salle ON salle.IdSalle = equipe.IdSalle
 	";
-	$sql2="SELECT DISTINCT membre.Nom, membre.Prenom, membre.Mail, filiere.Nom AS 'Filiere',salle.Nom AS 'Salle', equipe.Nom AS 'NomEquipe'
+	$sql2="SELECT DISTINCT membre.IdMembre,membre.Nom, membre.Prenom, membre.Mail, filiere.Nom AS 'Filiere',salle.Nom AS 'Salle', equipe.Nom AS 'NomEquipe'
 	FROM membre
 	INNER JOIN filiere ON filiere.IdFiliere = membre.IdFiliere
 	INNER JOIN equipe ON equipe.IdEquipe = membre.IdEquipe
@@ -124,6 +124,70 @@ function getBloque(){
 		return 1;
 	}
 }
+
+function recupNameParticipants(){
+	global $bd;
+    $sql="SELECT DISTINCT chef.Nom AS 'nom', chef.Prenom AS 'prenom', users.Mail AS 'mail'
+	FROM chef
+	INNER JOIN users ON users.IdUser = chef.IdUser
+	UNION
+	SELECT DISTINCT membre.Nom AS 'nom', membre.Prenom AS 'prenom', membre.Mail AS 'mail'
+	FROM membre
+	UNION
+	SELECT DISTINCT chercheur.Nom AS 'nom', chercheur.Prenom AS 'prenom', users.Mail AS 'mail'
+	FROM chercheur
+	INNER JOIN users ON users.IdUser = chercheur.IdUser";
+	$req = $bd->prepare($sql);
+	$req->execute();
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return json_encode($enreg);
+}
+
+
+function compare_user_lists($json1) {
+    $list1 = json_decode($json1, true);
+    $list2 = json_decode(recupNameParticipants(), true);
+    $not_in_first_list = array();
+    $not_in_second_list = array();
+
+    foreach ($list1 as $user1) {
+        $found = false;
+        foreach ($list2 as $user2) {
+            if ($user1["prenom"] == $user2["prenom"] &&
+                $user1["nom"] == $user2["nom"] &&
+                $user1["mail"] == $user2["mail"]) {
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $not_in_second_list[] = $user1;
+        }
+    }
+    foreach ($list2 as $user2) {
+        $found = false;
+        foreach ($list1 as $user1) {
+            if ($user1["prenom"] == $user2["prenom"] &&
+                $user1["nom"] == $user2["nom"] &&
+                $user1["mail"] == $user2["mail"]) {
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $not_in_first_list[] = $user2;
+        }
+    }
+    
+    $result = array(
+        "not_in_csv_list" => $not_in_first_list,
+        "not_in_site_list" => $not_in_second_list
+    );
+    
+    return $result;
+}
+
 
 ?>
 

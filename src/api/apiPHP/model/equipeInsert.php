@@ -101,4 +101,34 @@ function UpdateTeamSalle($IdUser, $IdSalle){
 	$req->execute($marqueur);
 	$req->closeCursor();
 }
+
+function UpdateTeamRecrute($IdUser){
+	global $bd;
+	$IdEquipe = getIdEquipeFromIdUser($IdUser)[0];
+	$sql="SELECT recrute FROM equipe WHERE IdEquipe=:IdEquipe";
+	$marqueur=array('IdEquipe'=>$IdEquipe);
+	$req = $bd->prepare($sql);
+	$req->execute($marqueur);
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	
+	if($enreg[0]["recrute"] == '1'){
+		$sql="UPDATE equipe SET recrute= 0 WHERE IdEquipe=:IdEquipe";
+		$marqueur=array('IdEquipe'=>$IdEquipe);
+		$req = $bd->prepare($sql);
+		$req->execute($marqueur);
+		$req->closeCursor();
+		return 0;
+	}else{
+		$sql="UPDATE equipe SET recrute= 1 WHERE IdEquipe=:IdEquipe";
+		$marqueur=array('IdEquipe'=>$IdEquipe);
+		$req = $bd->prepare($sql);
+		$req->execute($marqueur);
+		$req->closeCursor();
+
+		return 1;
+	}
+	
+}
+
 ?>

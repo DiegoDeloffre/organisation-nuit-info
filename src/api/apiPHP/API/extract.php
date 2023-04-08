@@ -93,6 +93,12 @@ if(!empty($_POST["action"])){
         case "getBloque":
             echo json_encode(getBloque());
             break;
+        case "ComparerListes":
+            if(!empty(($_POST["JsonList"]))){
+                echo json_encode(compare_user_lists($_POST["JsonList"]));
+            }
+            break;
+            
     }
 
 }

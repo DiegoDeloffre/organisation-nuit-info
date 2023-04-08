@@ -38,11 +38,11 @@ function CreateNewAccount($Mail,$Password,$Type,$Nom,$Prenom,$filiere,$Descripti
 	}
 	
 }
-function CreateNewOrganisateur($Mail,$Password){
+function CreateNewOrganisateur($Mail,$Password,$Type){
 	global $bd;
 
-	$sql="INSERT INTO users (Mail,MDP,IdType) VALUES (:Mail,:MDP,2)";
-	$marqueur=array('Mail'=>$Mail,'MDP'=>$Password);
+	$sql="INSERT INTO users (Mail,MDP,IdType) VALUES (:Mail,:MDP,(SELECT IdType FROM type WHERE Nom=:Type))";
+	$marqueur=array('Mail'=>$Mail,'MDP'=>$Password,'Type'=>$Type);
 	$req = $bd->prepare($sql);
 	$req->execute($marqueur);
 	$req->closeCursor();
