@@ -89,4 +89,17 @@ function setBloque(){
 	}
 }
 
+function resetTable(){
+	global $bd;
+    $sql="DELETE FROM demande
+	
+	DELETE FROM bloquerInscription
+	
+	DELETE FROM users
+	WHERE IdType != 1;";
+	$req = $bd->prepare($sql);
+	$req->execute();
+	$req->closeCursor();
+}
+
 ?>

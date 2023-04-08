@@ -91,11 +91,24 @@ function recupListeEquipe(){
 	foreach($req->fetchAll(PDO::FETCH_ASSOC) as $foo){
 		$enreg[$i]["Equipe"]= $foo;
 
-		$sqlF="SELECT filiere.Nom AS PromoMaj 
-		FROM filiere INNER JOIN membre WHERE IdEquipe = :IdEquipe AND filiere.IdFiliere = membre.IdFiliere
-		GROUP BY membre.IdFiliere
-		ORDER BY COUNT(*) DESC
-		LIMIT 1;";
+		$sqlF="SELECT PromoMaj, COUNT(*) AS NumValues
+		FROM (
+			SELECT m.Nom, f.Nom AS PromoMaj
+			FROM membre m
+			JOIN filiere f ON m.IdFiliere = f.IdFiliere
+			WHERE m.IdEquipe = :IdEquipe
+		
+			UNION
+		
+			SELECT c.Nom, f.Nom AS PromoMaj
+			FROM chef c
+			JOIN filiere f ON c.IdFiliere = f.IdFiliere
+			JOIN equipe e ON e.IdChef = c.IdChef AND e.IdEquipe = :IdEquipe
+		) AS combined_table
+		GROUP BY PromoMaj
+		ORDER BY NumValues DESC
+		LIMIT 1;
+		";
 		$reqF = $bd->prepare($sqlF);
 		$marqueur=array('IdEquipe'=>$enreg[$i]["Equipe"]["IdEquipe"]);
 		$reqF->execute($marqueur);

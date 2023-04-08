@@ -101,6 +101,9 @@ if(!empty($_POST["action"])){
                 echo json_encode(UpdateTeamRecrute($_POST["IdUser"]));
             }
             break;
+        case "resetTable":
+            resetTable();
+            break;
             
     }
 

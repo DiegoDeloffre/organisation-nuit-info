@@ -154,9 +154,9 @@ function compare_user_lists($json1) {
     foreach ($list1 as $user1) {
         $found = false;
         foreach ($list2 as $user2) {
-            if ($user1["prenom"] == $user2["prenom"] &&
-                $user1["nom"] == $user2["nom"] &&
-                $user1["mail"] == $user2["mail"]) {
+            if (strtolower($user1["prenom"]) == strtolower($user2["prenom"]) &&
+			strtolower($user1["nom"]) == strtolower($user2["nom"]) &&
+			strtolower($user1["mail"]) == strtolower($user2["mail"])) {
                 $found = true;
                 break;
             }
@@ -168,9 +168,9 @@ function compare_user_lists($json1) {
     foreach ($list2 as $user2) {
         $found = false;
         foreach ($list1 as $user1) {
-            if ($user1["prenom"] == $user2["prenom"] &&
-                $user1["nom"] == $user2["nom"] &&
-                $user1["mail"] == $user2["mail"]) {
+            if (strtolower($user1["prenom"]) == strtolower($user2["prenom"]) &&
+			strtolower($user1["nom"]) == strtolower($user2["nom"]) &&
+			strtolower($user1["mail"]) == strtolower($user2["mail"])) {
                 $found = true;
                 break;
             }
