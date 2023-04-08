@@ -72,6 +72,9 @@ if(!empty($_POST["action"])){
         case "RecupSalles":
             echo json_encode(getAllSalles());
             break;
+        case "RecupFilieres":
+            echo json_encode(getAllFilieres());
+            break;
         case "RecupContactsOrga":
             echo json_encode(getContactOrga());
             break;

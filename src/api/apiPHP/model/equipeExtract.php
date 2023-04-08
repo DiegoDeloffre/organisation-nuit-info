@@ -82,8 +82,7 @@ function recupEquipeRecrutant(){
 
 function recupListeEquipe(){
     global $bd;
-	$sql="SELECT DISTINCT equipe.IdEquipe, equipe.Nom, equipe.Description, chef.Nom AS 'NomChef', chef.Prenom AS 'PrenomChef', users.Mail AS 'MailChef',equipe.SalleEquipe, equipe.Isole FROM equipe INNER JOIN chef INNER JOIN users WHERE chef.IdChef = equipe.IdChef AND users.IdUser = chef.IdUser;
-    ";
+	$sql="SELECT DISTINCT equipe.IdEquipe, equipe.Nom, equipe.Description, chef.Nom AS 'NomChef', chef.Prenom AS 'PrenomChef', users.Mail AS 'MailChef',equipe.SalleEquipe, equipe.Isole,salle.Nom AS 'Salle' FROM equipe INNER JOIN chef INNER JOIN users INNER JOIN salle WHERE chef.IdChef = equipe.IdChef AND users.IdUser = chef.IdUser AND salle.IdSalle = equipe.IdSalle;";
 	$req = $bd->prepare($sql);
 	$req->execute();
 	$i = 0;
@@ -173,6 +172,16 @@ function recupSalleEquipe($IdUser){
 function getAllSalles(){
 	global $bd;
     $sql="SELECT Nom,IdSalle FROM salle";
+	$req = $bd->prepare($sql);
+	$req->execute();
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $enreg;
+}
+
+function getAllFilieres(){
+	global $bd;
+    $sql="SELECT Nom,IdFiliere FROM filiere";
 	$req = $bd->prepare($sql);
 	$req->execute();
 	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);

@@ -1,6 +1,13 @@
 const urlBase = "http://projetlibre/src/api/apiPHP/API"
 
-const signup = async (mail, mdp, nom, prenom, filiere, nomEquipe, type) => {
+const inscription = async (mail, mdp, nom, prenom, filiere, type, nomEquipe) => {
+  console.log(mail)
+  console.log(mdp)
+  console.log(type)
+  console.log(nom)
+  console.log(prenom)
+  console.log(filiere)
+  console.log(nomEquipe)
   const url = `${urlBase}/insert.php`;
   const requestOptions = {
     method: 'POST',
@@ -10,23 +17,46 @@ const signup = async (mail, mdp, nom, prenom, filiere, nomEquipe, type) => {
     body: new URLSearchParams({
       action: 'CreerUtilisateur',
       Mail: mail,
-      MDP: mdp, 
+      MDP: mdp,
       Type: type,
       Nom: nom,
-      Prenom: prenom, 
-      Filiere : filiere,
-      Description : nomEquipe
+      Prenom: prenom,
+      Filiere: filiere,
+      Description: nomEquipe
     })
   };
 
   try {
     const response = await fetch(url, requestOptions);
+    console.log(response)
     if (!response.ok) {
       throw new Error('La requête a échoué');
     }
-    const data = await response.json();
-    console.log(data[0].Description);
-    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+  }
+}
+
+const supprimerCompte = async (id) => {
+  const url = `${urlBase}/insert.php`;
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({
+      action: 'SupprimerUtilisateur',
+      IdUser: id
+    })
+  };
+
+  try {
+    const response = await fetch(url, requestOptions);
+    console.log(response)
+    if (!response.ok) {
+      throw new Error('La requête a échoué');
+    }
   } catch (error) {
     console.error(error);
     throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
@@ -49,11 +79,11 @@ const login = async (mail, mdp) => {
 
   try {
     const response = await fetch(url, requestOptions);
+    console.log(response)
     if (!response.ok) {
       throw new Error('La requête a échoué');
     }
     const data = await response.json();
-    console.log(data[0].Description);
     return data;
   } catch (error) {
     console.error(error);
@@ -61,7 +91,7 @@ const login = async (mail, mdp) => {
   }
 }
 
-const getFilieres = async () => {
+const getBloque = async () => {
   const url = `${urlBase}/extract.php`;
   const requestOptions = {
     method: 'POST',
@@ -69,7 +99,33 @@ const getFilieres = async () => {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams({
-      action: 'ConnecterUtilisateur'
+      action: 'getBloque'
+    })
+  };
+
+  try {
+    const response = await fetch(url, requestOptions);
+    console.log(response)
+    if (!response.ok) {
+      throw new Error('La requête a échoué');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+  }
+}
+
+const getAllFilieres = async () => {
+  const url = `${urlBase}/extract.php`;
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({
+      action: 'RecupFilieres'
     })
   };
 
@@ -119,7 +175,7 @@ const getAdmin = async () => {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: new URLSearchParams({
-      action: 'recupContactsOrga'
+      action: 'RecupContactsOrga'
     })
   };
 
@@ -140,5 +196,5 @@ const getAdmin = async () => {
 
 
 export {
-  login, signup, getFilieres, getSalles, getAdmin
+  login, inscription, getAllFilieres, getSalles, getAdmin, supprimerCompte, getBloque
 };

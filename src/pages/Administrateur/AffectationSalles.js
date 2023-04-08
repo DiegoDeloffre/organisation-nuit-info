@@ -42,7 +42,7 @@ function AffectationSalles() {
                 return "Seul dans la salle"
             case "1":
                 return "Avec d'autres équipes"
-            case "2":
+            default:
                 return "Pas de préférence"
         }
     }
@@ -72,13 +72,13 @@ function AffectationSalles() {
                         <></>
                     ) : (
                         equipes.map((equipe) => (
-                            
+
                             <tr key={equipe.Equipe.IdEquipe}>
                                 <td>{equipe.Equipe.Nom}</td>
                                 <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
                                 <td>{equipe.Equipe.MailChef}</td>
                                 <td>{equipe.Membres.length + 1}</td>
-                                <td>{equipe.Membres[0].filiere}</td>
+                                <td>{equipe.Equipe.PromoMaj}</td>
                                 <td>{handleFirstChoice(equipe.Equipe.SalleEquipe)}</td>
                                 <td>{handleSecondChoice(equipe.Equipe.Isole)}</td>
                                 <td>

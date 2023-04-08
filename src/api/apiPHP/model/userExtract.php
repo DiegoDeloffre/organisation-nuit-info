@@ -43,7 +43,7 @@ function recupInfosChercheur($IdUser){
 
 function recupChercheur(){
     global $bd;
-    $sql="SELECT DISTINCT chercheur.IdChercheur, chercheur.Description, chercheur.Nom , chercheur.Prenom, users.Mail, filiere.Nom AS 'Filiere' FROM chercheur INNER JOIN users INNER JOIN filiere WHERE chercheur.IdUser = users.IdUser AND filiere.IdFiliere = chercheur.IdFiliere;
+    $sql="SELECT DISTINCT chercheur.IdChercheur, chercheur.Description, chercheur.Nom , chercheur.Prenom, chercheur.Recrute, users.Mail, filiere.Nom AS 'Filiere' FROM chercheur INNER JOIN users INNER JOIN filiere WHERE chercheur.IdUser = users.IdUser AND filiere.IdFiliere = chercheur.IdFiliere;
     ";
 	$req = $bd->prepare($sql);
 	$req->execute();

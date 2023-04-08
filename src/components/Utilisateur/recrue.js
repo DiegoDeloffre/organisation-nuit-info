@@ -21,7 +21,7 @@ function Recrue({ idChercheur, infoChercheur, description, demandeRecue, updateC
             </Button>
             <div className='recrue-button-demande'>
                 {
-                    demandeRecue && <Button className='recrue-button-demande' variant="contained" color="primary" onClick={accepterDemande}>
+                    demandeRecue && <Button className='recrue-button-demande' variant="contained" color="primary" onClick={accepterDemandeChercheur}>
                         Accepter Demande
                     </Button>
                 }

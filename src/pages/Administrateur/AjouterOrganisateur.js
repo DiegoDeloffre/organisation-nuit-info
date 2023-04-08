@@ -11,11 +11,11 @@ function AjouterOrganisateur() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [typeUtilisateur, setTypeUtilisateur] = useState('');
  
-    const ajouterOrganisateur = async () => {
+    const addOrganisateur = async () => {
         console.log(email)
         console.log(password)
         console.log(typeUtilisateur)
-        await ajouterOrganisateur(4, email, password, typeUtilisateur);
+        await ajouterOrganisateur(email, password, typeUtilisateur);
     };
 
     const handletypeUtilisateur = (event) => {
@@ -59,15 +59,15 @@ function AjouterOrganisateur() {
                     <input type="password" value={password} onChange={handlePasswordChange} />
                     <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
                     <select value={typeUtilisateur} onChange={handletypeUtilisateur}>
-                        <option value="prof">Admin prof</option>
-                        <option value="etudiant">Admin étudiant</option>
+                        <option value="Admin">Admin prof</option>
+                        <option value="Organisateur">Admin étudiant</option>
                     </select>
                 </div>
             </div>
         </div>
 
         <br />
-        <Button variant="contained" color="primary" type="submit" onClick={ajouterOrganisateur}>
+        <Button variant="contained" color="primary" type="submit" onClick={addOrganisateur}>
             Confirmer
         </Button>
     </div>

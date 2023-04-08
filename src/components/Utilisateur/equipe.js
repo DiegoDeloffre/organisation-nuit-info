@@ -8,9 +8,8 @@ import ModifierNomEquipe from "../Popup/ModifierNomEquipe";
 import { Button } from '@material-ui/core';
 
 import editIcon from '../../assets/pencil.png';
-import { nomMembre, prenomMembre, filiereMembre } from "../../assets/mockElements";
 
-import { getMembres, modifierNomEquipe } from '../../api/apiReact/apiUtilisateurs';
+import { getMembres, modifierNomEquipe, getNomEquipe } from '../../api/apiReact/apiUtilisateurs';
 
 function Equipe() {
     const [afficherPopup, setAfficherPopup] = useState(false);
@@ -25,18 +24,23 @@ function Equipe() {
             setMembres(data.Membres)
             setChef(data.Chef)
         };
+
+        const recupNomEquipe = async () => {
+            let data = await getNomEquipe(4);
+            setName(data[0].Nom)
+        };
         recupMembres();
-        /* recupNomEquipe(): */
+        recupNomEquipe();
     }, []);
 
-    const recupNomEquipe = async () => {
-        /* let data = await getNomEquipe(4);
-        setName(data.Nom) */
+    const recupNomEquipe2 = async () => {
+        let data = await getNomEquipe(4);
+        setName(data[0].Nom)
     };
 
     const modifNomEquipe = async (nom) => {
         await modifierNomEquipe(4, nom);
-        /* recupNomEquipe() */
+        recupNomEquipe2()
     };
 
     const updateMembres = async () => {
@@ -80,13 +84,13 @@ function Equipe() {
         </div>
 
         <div className="equipe-button">
-            <Button variant="contained" color="primary" onClick={() => setAfficherPopup(false)}>
+            <Button variant="contained" color="primary" onClick={() => setAfficherPopup(true)}>
                 Ajouter
             </Button>
         </div>
 
-        {afficherPopup && <AjouterMembre onClose={() => setAfficherPopup(false)} updateMembre={updateMembres}/>}
-        {showPopup && <ModifierNomEquipe value={name} onClose={() => setShowPopup(false)} onSave={modifierNomEquipe}/>}
+        {afficherPopup && <AjouterMembre onClose={() => setAfficherPopup(false)} updateMembre={updateMembres} />}
+        {showPopup && <ModifierNomEquipe value={name} onClose={() => setShowPopup(false)} onSave={modifNomEquipe} />}
 
     </div>
     )

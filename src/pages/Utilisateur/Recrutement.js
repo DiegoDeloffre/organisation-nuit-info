@@ -13,10 +13,7 @@ function Recrutement() {
   useEffect(() => {
     const recupChercheurs = async () => {
       let data = await getChercheurs();
-      console.log(data)
       setChercheurs(data)
-      console.log(chercheurs)
-
     };
     recupChercheurs();
   }, []);
@@ -30,11 +27,11 @@ function Recrutement() {
     <div className='recrutement'>
       <h2>Recrutement</h2>
       {chercheurs.length === 0 ? (
-        <></>
+        <> oui</>
       ) : (
         chercheurs.map((chercheur) => (
-          <React.Fragment key={chercheur.IdChercheur}>
-            <Recrue idChercheur={chercheur.IdChercheur} infoChercheur={chercheur.Nom + " " + chercheur.Prenom} updateChercheur={updateChercheur} description={"Description du chercheur Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec,         mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui."} demandeRecue={false} />
+          <React.Fragment key={chercheur.InfosChercheur.IdChercheur}>
+            <Recrue idChercheur={chercheur.InfosChercheur.IdChercheur} infoChercheur={chercheur.InfosChercheur.Nom + " " + chercheur.InfosChercheur.Prenom + " " + chercheur.InfosChercheur.Filiere} updateChercheur={updateChercheur} description={chercheur.InfosChercheur.Description} demandeRecue={chercheur.DemandesChercheurs.length === 0 ? false : true} />
             <hr />
           </React.Fragment>
         ))

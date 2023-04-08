@@ -2,16 +2,27 @@ import React, { useState, useEffect } from 'react';
 import "../../styles/Utilisateur/Components/profilAgent.css"
 
 import ModifierProfilEquipe from '../Popup/ModifierProfilEquipe';
-import { getProfilChercheur, modifierProfilChercheur } from '../../api/apiReact/apiUtilisateurs';
+import { getProfilChercheur, modifierProfilChercheur, getInfosChercheur } from '../../api/apiReact/apiUtilisateurs';
 import editIcon from '../../assets/pencil.png';
 
-function ProfilAgent({ infoAgent }) {
+function ProfilAgent() {
   const [showPopup, setShowPopup] = useState(false);
   const [description, setDescription] = useState("");
-  
+  const [infosChercheur, setInfosChercheur] = useState([])
+
   useEffect(() => {
-    console.log("Lesgo")
+    const recupInfosChercheur = async () => {
+      let data = await getInfosChercheur(23);
+      console.log(data)
+      setInfosChercheur(data[0]);
+    };
+
+    const recupProfilChercheur = async () => {
+      let data = await getProfilChercheur(23);
+      setDescription(data);
+    };
     recupProfilChercheur();
+    recupInfosChercheur();
   }, []);
 
 
@@ -20,9 +31,7 @@ function ProfilAgent({ infoAgent }) {
     setDescription(data);
   };
 
-
   const modifierProfil = async (newDescription) => {
-    console.log(newDescription)
     await modifierProfilChercheur(23, newDescription);
     recupProfilChercheur();
   };
@@ -39,7 +48,7 @@ function ProfilAgent({ infoAgent }) {
         />
       </div>
       <h2>Profil</h2>
-      <p>{infoAgent}</p>
+      <p>{infosChercheur.Nom} {infosChercheur.Prenom} {infosChercheur.Filiere}</p>
       <p>{description}</p>
       {showPopup && (
         <ModifierProfilEquipe

@@ -10,6 +10,8 @@ import ListeEquipes from "../../components/Administrateur/listeEquipes";
 
 import { Button } from '@material-ui/core';
 
+import { bloquerInscriptions, resetDatabase } from "../../api/apiReact/apiAdministrateur";
+
 function AccueilAdmin() {
     const [ongletActif, setOngletActif] = useState("Participants");
     const [isProf, setIsProf] = useState(true);
@@ -35,13 +37,18 @@ function AccueilAdmin() {
         }
     };
 
-    function blockSignin() {
-        //
+    const bloquer = async () => {
+        console.log("ça bloque sale là")
+        console.log(localStorage.bloque)
+        localStorage.bloque === "true" ? localStorage.setItem("bloque", false) : localStorage.setItem("bloque", true)
+
+        await bloquerInscriptions();
+        console.log(localStorage.bloque)
     }
 
-    function resetDatabase() {
-        //
-    }
+    const reset = async () => {
+        await resetDatabase();
+    };
 
     return (
         <div className="administrateur">
@@ -79,19 +86,21 @@ function AccueilAdmin() {
                 <Button variant="contained" color="primary" href="/comparer">
                     Comparer Listes
                 </Button>
-                <Button variant="contained" color="primary" href="/salles">
-                    Affectation Salles
-                </Button>
+
             </div>
             {isProf &&
+
                 <div className="buttons">
-                    <Button variant="contained" color="primary" onClick={resetDatabase}>
+                    <Button variant="contained" color="primary" href="/salles">
+                        Affectation Salles
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={reset}>
                         Reset database
                     </Button>
                     <Button variant="contained" color="primary" href="/ajouterOrganisateur">
                         Ajouter un organisateur
                     </Button>
-                    <Button variant="contained" color="primary" onClick={blockSignin}>
+                    <Button variant="contained" color="primary" onClick={bloquer}>
                         Bloquer inscriptions
                     </Button>
                 </div>

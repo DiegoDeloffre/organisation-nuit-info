@@ -28,12 +28,13 @@ function ListeAgentsLibres() {
                     <></>
                 ) : (
                     chercheurs.map((chercheur) => (
-                        <tr key={chercheur.IdChercheur}>
-                            <td>{chercheur.Nom}</td>
-                            <td>{chercheur.Prenom}</td>
-                            <td>{chercheur.Mail}</td>
-                            <td>{chercheur.Filiere}</td>
-                        </tr>
+                        chercheur.InfosChercheur.Recrute !== "1" && (
+                        <tr key={chercheur.InfosChercheur.IdChercheur}>
+                            <td>{chercheur.InfosChercheur.Nom}</td>
+                            <td>{chercheur.InfosChercheur.Prenom}</td>
+                            <td>{chercheur.InfosChercheur.Mail}</td>
+                            <td>{chercheur.InfosChercheur.Filiere}</td>
+                        </tr>)
                     ))
                 )}
             </tbody>

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button
 } from '@material-ui/core';
-import { getFilieres } from '../../api/apiReact/apitools';
+import { getAllFilieres, inscription } from '../../api/apiReact/apitools';
 
 function Inscription() {
   const [email, setEmail] = useState('');
@@ -11,14 +11,22 @@ function Inscription() {
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [creerEquipe, setCreerEquipe] = useState(true);
-  const [autoriserUtilisation, setAutoriserUtilisation] = useState(true);
   const [promo, setPromo] = useState("");
   const [nomEquipe, setNomEquipe] = useState("");
+  const [filieres, setFilieres] = useState([]);
+
+  useEffect(() => {
+    const recupFilieres = async () => {
+      let data = await getAllFilieres();
+      setFilieres(data)
+
+    };
+    recupFilieres();
+  }, []);
 
   const handleNomEquipeChange = (event) => {
     setNomEquipe(event.target.value);
   }
-  
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -42,24 +50,31 @@ function Inscription() {
 
   const handleCreerEquipeChange = (event) => {
     setCreerEquipe(event.target.value === 'creerEquipe');
-  };
-
-  const handleAutoriserUtilisationChange = (event) => {
-    setAutoriserUtilisation(event.target.value === 'autoriserUtilisation');
+    !creerEquipe && setNomEquipe('')
   };
 
   const handlePromoChange = (event) => {
     setPromo(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // ici, vous pouvez effectuer des validations et envoyer les données d'inscription au serveur
+  const ajouterUtilisateur = async () => {
+    let type;
+    if (creerEquipe) {
+      type = "Chef"
+    } else {
+      type = "Chercheur"
+    }
+    if (nomEquipe === "") {
+      await inscription(email, password, nom, prenom, promo, type);
+    } else {
+      await inscription(email, password, nom, prenom, promo, type, nomEquipe);
+    }
+    // rediriger vers connexion
   };
 
   return (<div className='global'>
     <h2>Inscription</h2>
-    <form onSubmit={handleSubmit}>
+    <form>
 
 
       <div className='inscription-wrapper'>
@@ -98,10 +113,13 @@ function Inscription() {
             <input type="text" value={nom} onChange={handleNomChange} />
             <input type="text" value={prenom} onChange={handlePrenomChange} />
             <select value={promo} onChange={handlePromoChange}>
-              <option value="DI3">DI3</option>
-              <option value="DI4">DI4</option>
-              <option value="DI5">DI5</option>
-              {/* Ajouter d'autres options de promo ici si nécessaire */}
+              {filieres.length === 0 ? (
+                <></>
+              ) : (
+                filieres.map((fil) => (
+                  <option key={fil.IdFiliere} value={fil.Nom}>{fil.Nom}</option>
+                ))
+              )}
             </select>
           </div>
 
@@ -138,40 +156,21 @@ function Inscription() {
         </div>
         <br />
         {creerEquipe &&
-        <div className='inscription-inner'>
-        <div className='labels'>
-          <label>
-            Nom de l'équipe :
-          </label>
-        </div>
-        <div className='inputs'>
-          <input type="text" value={nomEquipe} onChange={handleNomEquipeChange} />
-        </div>
-      </div>
+          <div className='inscription-inner'>
+            <div className='labels'>
+              <label>
+                Nom de l'équipe :
+              </label>
+            </div>
+            <div className='inputs'>
+              <input type="text" value={nomEquipe} onChange={handleNomEquipeChange} />
+            </div>
+          </div>
         }
-        
+
         <br />
 
-        {/* <div className='inscription-bottom-inner'>
-          <label>
-            Demande autorisation utilisation Nom et Prénom pour historique pour toute l'équipe ?
-          </label>
-          <br />
-          <label>
-            <input type="radio"
-              name="autoriserUtilisation"
-              value="autoriserUtilisation"
-              checked={autoriserUtilisation}
-              onChange={handleAutoriserUtilisationChange} />
-            Autoriser
-            <input type="radio"
-              name="autoriserUtilisation"
-              value="refuserUtilisation"
-              checked={!autoriserUtilisation}
-              onChange={handleAutoriserUtilisationChange} />
-            Refuser
-          </label>
-        </div> */}
+
 
 
       </div>
@@ -179,7 +178,7 @@ function Inscription() {
       <br />
 
     </form>
-    <Button variant="contained" color="primary" type="submit" href='/accueil2'>
+    <Button variant="contained" color="primary" type="submit" onClick={ajouterUtilisateur}>
       S'inscrire
     </Button>
   </div>

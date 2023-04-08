@@ -9,6 +9,7 @@ function ContacterAdmin({ onClose }) {
     useEffect(() => {
         const recupContactsAdmin = async () => {
             let data = await getAdmin();
+            console.log(data)
             setAdmin(data)
         };
         recupContactsAdmin();
@@ -25,7 +26,7 @@ function ContacterAdmin({ onClose }) {
                 ) : (
                     administrateurs.map((admin) => (
                         <div>
-                            {admin.Nom} {admin.Prenom} {admin.Filiere} {admin.Mail}
+                            {admin.Mail}
                         </div>
                     ))
                 )}

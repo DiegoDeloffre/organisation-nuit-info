@@ -8,12 +8,18 @@ import { Button } from '@material-ui/core';
 import { tutoEquipe, tutoChercheur, tutoRecrutement } from '../assets/tutos';
 import ContacterAdmin from './Popup/ContacterAdmin';
 
-const Menu = ({ loggedIn }) => {
+import { supprimerCompte } from '../api/apiReact/apitools';
+
+const Menu = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [joyrideKey, setJoyrideKey] = useState(0); // ajouter une clé unique
   const [steps, setSteps] = useState([]);
   const [afficherPopupContact, setAfficherPopupContact] = useState(false);
 
+  const deleteCompte = async () => {
+    await supprimerCompte(44);
+    handleLogout();
+  };
 
   const handleAfficherPopupContact = () => {
     setAfficherPopupContact(true);
@@ -27,10 +33,18 @@ const Menu = ({ loggedIn }) => {
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   function isConnected() {
-    if (!loggedIn) {
+    if (localStorage.loggedIn === "false") {
       window.location.href = "/";
     }
     setSteps([]);
+  }
+
+  function handleLogout() {
+    localStorage.setItem("loggedIn", false);
+    localStorage.removeItem("UserType")
+    localStorage.removeItem("UserId")
+    console.log(localStorage.loggedIn)
+    // rediriger présentation
   }
 
 
@@ -85,10 +99,10 @@ const Menu = ({ loggedIn }) => {
             <button onClick={toggleDropdown}>Mon compte</button>
             {showDropdown && (
               <div className="menu__dropdown-content">
-                <Button variant="contained" color="primary" /* onClick={handleLogout} */>
+                <Button variant="contained" color="primary" onClick={handleLogout}>
                   <Link to="/">Se déconnecter</Link>
                 </Button>
-                <Button variant="contained" color="primary" /* onClick={handleDeleteAccount} */>
+                <Button variant="contained" color="primary" onClick={deleteCompte}>
                   <Link to="/">Supprimer mon compte</Link>
                 </Button>
                 <Button variant="contained" color="primary" onClick={handleHelpClick}>

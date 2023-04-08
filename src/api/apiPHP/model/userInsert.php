@@ -4,7 +4,7 @@
 function CreateNewAccount($Mail,$Password,$Type,$Nom,$Prenom,$filiere,$Description){
 	global $bd;
 
-	if($Type == "chercheur"){
+	if($Type == "Chercheur"){
 		$sql="INSERT INTO users (Mail,MDP,IdType) VALUES (:Mail,:MDP,(SELECT IdType FROM type WHERE Nom=:Type))";
 		$marqueur=array('Mail'=>$Mail,'MDP'=>$Password,'Type'=>$Type);
 		$req = $bd->prepare($sql);
@@ -17,7 +17,7 @@ function CreateNewAccount($Mail,$Password,$Type,$Nom,$Prenom,$filiere,$Descripti
 		$req->execute($marqueur);
 		$req->closeCursor();
 	}
-	if($Type == "chef"){
+	if($Type == "Chef"){
 		$sql="INSERT INTO users (Mail,MDP,IdType) VALUES (:Mail,:MDP,(SELECT IdType FROM type WHERE Nom=:Type))";
 		$marqueur=array('Mail'=>$Mail,'MDP'=>$Password,'Type'=>$Type);
 		$req = $bd->prepare($sql);
@@ -90,16 +90,16 @@ function setBloque(){
 }
 
 function resetTable(){
-	global $bd;
+    global $bd;
     $sql="DELETE FROM demande
-	
-	DELETE FROM bloquerInscription
-	
-	DELETE FROM users
-	WHERE IdType != 1;";
-	$req = $bd->prepare($sql);
-	$req->execute();
-	$req->closeCursor();
+    UNION
+    DELETE FROM bloquerInscription
+    UNION
+    DELETE FROM users
+    WHERE IdType != 1;";
+    $req = $bd->prepare($sql);
+    $req->execute();
+    $req->closeCursor();
 }
 
 ?>

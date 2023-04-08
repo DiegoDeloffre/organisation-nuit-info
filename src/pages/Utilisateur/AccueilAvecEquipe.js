@@ -8,25 +8,24 @@ import Materiel from "../../components/Utilisateur/materiels"
 
 import { Button, Switch } from '@material-ui/core';
 
-import { description } from '../../assets/mockElements';
-
-
+import { modifierEquipeRecrute } from '../../api/apiReact/apiUtilisateurs';
 
 function AccueilAvecEquipe() {
     const [recrute, setRecrute] = useState(false);
-    
+
     useEffect(() => {
-        
+        const recupRecrute = async () => {
+            //let data = await getMateriels(23);
+            //setRecrute(data === 0 ? false : true)
+        };
+        recupRecrute();
+
     }, []);
 
-    const recupRecrute = async () => {
-        //let data = await getMateriels(4);
-        
-    };
-
-    const toggleRecrute = () => {
+    const modifierRecrute = async () => {
+        await modifierEquipeRecrute(4);
         setRecrute(!recrute);
-    }
+    };
 
     return (<div className="global">
         <h2>Accueil</h2>
@@ -39,7 +38,7 @@ function AccueilAvecEquipe() {
                         <h3>Souhaitez-vous recruter d'autres membres ?</h3>
                         <div className="interrupteur-inner">
                             <h4>Non</h4>
-                            <Switch checked={recrute} onChange={toggleRecrute} color="primary" />
+                            <Switch checked={recrute} onChange={modifierRecrute} color="primary" />
                             <h4>Oui</h4>
                         </div>
                     </div>
@@ -53,7 +52,7 @@ function AccueilAvecEquipe() {
             </div>
 
             <div className="right">
-                <ProfilEquipe/>
+                <ProfilEquipe />
                 <div className="bottom">
                     <Materiel />
                     <Salle />

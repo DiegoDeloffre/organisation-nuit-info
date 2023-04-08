@@ -13,12 +13,10 @@ function ListeMatériels() {
     useEffect(() => {
         const recupGlobal = async () => {
             let data = await getMaterielsGlobal();
-            console.log(data)
             setGlobal(data)
         };
         const recupParEquipe = async () => {
             let data = await getMaterielsParEquipe();
-            console.log(data)
             setParEquipe(data);
         };
         recupGlobal();

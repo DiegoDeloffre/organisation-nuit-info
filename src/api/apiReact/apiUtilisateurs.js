@@ -19,7 +19,6 @@ const getProfilChercheur = async (id) => {
             throw new Error('La requête a échoué');
         }
         const data = await response.json();
-        console.log(data[0].Description);
         return data[0].Description;
     } catch (error) {
         console.error(error);
@@ -42,11 +41,36 @@ const modifierProfilChercheur = async (id, description) => {
     };
 
     try {
-        console.log("api" + description)
         const response = await fetch(url, requestOptions);
         if (!response.ok) {
             throw new Error('La requête a échoué');
         }
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
+}
+
+const getInfosChercheur = async (id) => {
+    const url = `${urlBase}/extract.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'RecupInfosChercheur',
+            IdUser: 23
+        })
+    };
+
+    try {
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error(error);
         throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
@@ -130,6 +154,31 @@ const modifierProfilEquipe = async (id, description) => {
     }
 }
 
+const getNomEquipe = async (id) => {
+    const url = `${urlBase}/extract.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'RecupNomEquipe',
+            IdUser: id
+        })
+    };
+
+    try {
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
+}
 const modifierNomEquipe = async (id, nom) => {
     const url = `${urlBase}/insert.php`;
     const requestOptions = {
@@ -149,9 +198,6 @@ const modifierNomEquipe = async (id, nom) => {
         if (!response.ok) {
             throw new Error('La requête a échoué');
         }
-        const data = await response.json();
-        console.log(data[0].Description);
-        return data;
     } catch (error) {
         console.error(error);
         throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
@@ -347,7 +393,7 @@ const modifierChoixEquipe = async (id, salleEquipee, seul) => {
     }
 }
 
-const modifierEquipeRecrute = async (id) => {
+const getEquipeRecrute = async (id) => {
     const url = `${urlBase}/extract.php`;
     const requestOptions = {
         method: 'POST',
@@ -368,6 +414,30 @@ const modifierEquipeRecrute = async (id) => {
         const data = await response.json();
         console.log(data[0].Description);
         return data;
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
+}
+
+const modifierEquipeRecrute = async (id) => {
+    const url = `${urlBase}/insert.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'modifierEquipeRecrute',
+            IdUser: id
+        })
+    };
+
+    try {
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
     } catch (error) {
         console.error(error);
         throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
@@ -399,7 +469,7 @@ const getChercheurs = async () => {
     }
 }
 
-const accepterDemande = async (idEquipe, idChercheur) => {
+const accepterDemande = async (idUser, idChercheur) => {
     const url = `${urlBase}/insert.php`;
     const requestOptions = {
         method: 'POST',
@@ -408,8 +478,8 @@ const accepterDemande = async (idEquipe, idChercheur) => {
         },
         body: new URLSearchParams({
             action: 'AccepterDemande',
-            IdUser: idChercheur,
-            IdChercheur: idEquipe
+            IdUser: idUser,
+            IdChercheur: idChercheur
         })
     };
 
@@ -418,9 +488,6 @@ const accepterDemande = async (idEquipe, idChercheur) => {
         if (!response.ok) {
             throw new Error('La requête a échoué');
         }
-        const data = await response.json();
-        console.log(data[0].Description);
-        return data;
     } catch (error) {
         console.error(error);
         throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
@@ -446,9 +513,6 @@ const envoyerDemande = async (idChercheur, idEquipe) => {
         if (!response.ok) {
             throw new Error('La requête a échoué');
         }
-        const data = await response.json();
-        console.log(data[0].Description);
-        return data;
     } catch (error) {
         console.error(error);
         throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
@@ -485,5 +549,5 @@ const getSalle = async (id) => {
 export {
     getSalle, envoyerDemande, accepterDemande, getChercheurs, modifierEquipeRecrute, modifierChoixEquipe, modifierMaterielEquipe,
     supprimerMembreEquipe, ajouterMembreEquipe, modifierNomEquipe, modifierProfilEquipe, getProfilEquipe, getEquipesRecrutant,
-    modifierProfilChercheur, getProfilChercheur, getChoixEquipe, getMateriels, getMembres
+    modifierProfilChercheur, getProfilChercheur, getChoixEquipe, getMateriels, getMembres, getInfosChercheur, getNomEquipe, getEquipeRecrute
 };

@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import "../../styles/Administrateur/Pages/ComparerListes.css";
 import { FaFileCsv, FaJs } from "react-icons/fa";
 
-import ListeRecrutement from '../../components/Administrateur/listeRecrutement';
+import ListeComparaison from '../../components/Administrateur/listeComparaison';
 
 import { Button } from '@material-ui/core';
 
+import { comparerListes } from '../../api/apiReact/apiAdministrateur';
+
 function ComparerListes() {
     const [file, setFile] = useState(null);
+    const [liste1, setListe1] = useState([]);
+    const [liste2, setListe2] = useState([]);
     const [showComparaison, setShowComparaison] = useState(false);
-
-    const handleComparaisonClick = () => {
-        setShowComparaison(true);
-    }
 
     const isFileAccepted = (file) => {
         return file.type === "text/csv" || file.type === "application/json" || file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -20,14 +20,46 @@ function ComparerListes() {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        console.log(selectedFile);
         if (selectedFile && isFileAccepted(selectedFile)) {
-            console.log("File set")
             setFile(selectedFile);
         } else {
             setFile(null);
         }
     };
+
+    const handleComparaisonClick = async () => {
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = async() => {
+                const csvData = reader.result;
+                const csvArray = csvData.split('\n');
+                const headers = csvArray[0].split(';');
+                const jsonArray = [];
+
+                for (let i = 1; i < csvArray.length; i++) {
+                    const obj = {};
+                    const currentRow = csvArray[i].split(';');
+
+                    for (let j = 0; j < headers.length; j++) {
+                        obj[headers[j]] = currentRow[j];
+                    }
+
+                    jsonArray.push(obj);
+                }
+
+                const jsonData = JSON.stringify(jsonArray);
+
+                let data = await comparerListes(jsonData)
+                setListe1(data.not_in_csv_list)
+                setListe2(data.not_in_site_list)
+                setShowComparaison(true)
+            };
+
+            reader.readAsText(file);
+        }
+    };
+
 
     return (
         <div className='comparer-wrapper'>
@@ -56,7 +88,7 @@ function ComparerListes() {
             <Button variant="contained" color="primary" onClick={handleComparaisonClick}>
                 Comparer
             </Button>
-            {showComparaison && <ListeRecrutement />}
+            {showComparaison && <ListeComparaison liste1={liste1} liste2={liste2} />}
             <Button variant="contained" color="primary" href="/administrateur">
                 Retour
             </Button>

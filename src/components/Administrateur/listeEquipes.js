@@ -35,8 +35,8 @@ function ListeEquipes() {
                             <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
                             <td>{equipe.Equipe.MailChef}</td>
                             <td>{equipe.Membres.length + 1}</td>
-                            <td>{equipe.Membres[0].filiere}</td>
-                            {/* <td>{equipe.Equipe.Salle}</td> */}
+                            <td>{equipe.Equipe.PromoMaj}</td>
+                            <td>{equipe.Equipe.Salle}</td>
                         </tr>
                     ))
                 )}

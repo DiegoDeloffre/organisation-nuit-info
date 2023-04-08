@@ -101,7 +101,7 @@ const getMaterielsParEquipe = async () => {
 }
 
 const ajouterOrganisateur = async (mail, mdp, type) => {
-    const url = `${urlBase}/extract.php`;
+    const url = `${urlBase}/insert.php`;
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -127,15 +127,78 @@ const ajouterOrganisateur = async (mail, mdp, type) => {
 }
 
 const resetDatabase = async () => {
+    const url = `${urlBase}/insert.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'resetTable'
+        })
+    };
 
+    try {
+        const response = await fetch(url, requestOptions);
+        console.log(response)
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
 }
 
 const bloquerInscriptions = async () => {
+    const url = `${urlBase}/insert.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'BloquerInscriptions'
+        })
+    };
 
+    try {
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
 }
 
-const comparerListes = async () => {
+const comparerListes = async (dataJson) => {
+    console.log(dataJson)
+    const url = `${urlBase}/extract.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'ComparerListes',
+            JsonList: dataJson
+        })
+    };
 
+    try {
+        const response = await fetch(url, requestOptions);
+        console.log(response)
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
 }
 
 const getInfosSalle = async () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Button } from '@material-ui/core';
 
-import { getFilieres } from "../../api/apiReact/apitools";
+import { getAllFilieres } from "../../api/apiReact/apitools";
 import { ajouterMembreEquipe } from "../../api/apiReact/apiUtilisateurs";
 
 function AjouterMembre({ onClose, updateMembre }) {
@@ -14,18 +14,14 @@ function AjouterMembre({ onClose, updateMembre }) {
 
     useEffect(() => {
         const recupFilieres = async () => {
-            let data = await getFilieres();
-            console.log(data)
-            
+            let data = await getAllFilieres();
+            setFilieres(data)
+
         };
         recupFilieres();
     }, []);
 
     const ajouterMembre = async () => {
-        console.log(nom)
-        console.log(prenom)
-        console.log(mail)
-        console.log(filiere)
         await ajouterMembreEquipe(4, nom, prenom, mail, filiere);
         updateMembre()
         onClose();
@@ -66,9 +62,13 @@ function AjouterMembre({ onClose, updateMembre }) {
                         <input type="text" id="prenom" value={prenom} onChange={handlePrenomChange} />
                         <input type="text" id="prenom" value={mail} onChange={handleMailChange} />
                         <select id="filiere" value={filiere} onChange={handleFiliereChange}>
-                            <option value="DI">DI</option>
-                            <option value="DII">DII</option>
-                            <option value="Peip">Peip</option>
+                            {filieres.length === 0 ? (
+                                <></>
+                            ) : (
+                                filieres.map((fil) => (
+                                    <option key={fil.IdFiliere} value={fil.Nom}>{fil.Nom}</option>
+                                ))
+                            )}
                         </select>
                     </div>
                 </div>

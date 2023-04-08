@@ -16,14 +16,11 @@ function AccueilSansEquipe() {
     };
 
     getEquipesQuiRecrutent();
-
   }, []);
 
   return (<div className="global">
     <h2>Accueil</h2>
-    {equipesQuiRecrutent.length === 0 ? (
-      <p>Loading...</p>
-    ) : hasJoinedATeam ? (
+    {hasJoinedATeam ? (
       <>
         <h2>Vous avez rejoint l'équipe</h2>
         <h3>Nom de l'équipe</h3>
@@ -38,7 +35,7 @@ function AccueilSansEquipe() {
     ) : (
       <>
         <div className="left-big">
-          <ProfilAgent infoAgent={'Deloffre - Diego - DI5'} />
+          <ProfilAgent />
         </div>
 
         <div className="right-big">

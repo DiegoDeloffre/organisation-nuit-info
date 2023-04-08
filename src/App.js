@@ -20,37 +20,16 @@ import ComparerListes from './pages/Administrateur/ComparerListes';
 import AjouterOrganisateur from './pages/Administrateur/AjouterOrganisateur';
 
 export default function App() {
-  
-  const [loggedIn, setLoggedIn] = useState(true);
-  
-  /* useState(
-    localStorage.getItem("loggedIn") || false
-  ); */
-
-  function handleLogin() {
-    // Vérifiez les informations d'authentification de l'utilisateur ici.
-    // Si l'utilisateur est authentifié, stockez les informations dans le stockage local.
-    localStorage.setItem("loggedIn", true);
-    localStorage.setItem("UserType", "admin");
-    localStorage.setItem("UserId", 23);
-    setLoggedIn(true);
-  }
-
-  function handleLogout() {
-    // Supprimez les informations d'authentification du stockage local.
-    localStorage.removeItem("loggedIn");
-    setLoggedIn(false);
-  }
 
   return (
     <Router>
-      <Menu loggedIn={loggedIn} />
+      <Menu />
       <Routes>
         <Route path="/" element={<Presentation />} />
         <Route path="inscription" element={<Inscription />} />
-        <Route path="connexion" element={<Connexion onLogin={handleLogin} onLogout={handleLogout}/>} />
+        <Route path="connexion" element={<Connexion />} />
         <Route path="reglement" element={<Reglement />} />
-        {loggedIn && (
+        {localStorage.loggedIn && (
           <>
             <Route path="accueil1" element={<AccueilAvecEquipe />} />
             <Route path="accueil2" element={<AccueilSansEquipe />} />
