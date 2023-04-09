@@ -9,7 +9,7 @@ const getProfilChercheur = async (id) => {
         },
         body: new URLSearchParams({
             action: 'RecupProfilChercheur',
-            IdUser: 23
+            IdUser: id
         })
     };
 
@@ -60,7 +60,7 @@ const getInfosChercheur = async (id) => {
         },
         body: new URLSearchParams({
             action: 'RecupInfosChercheur',
-            IdUser: 23
+            IdUser: id
         })
     };
 
@@ -402,7 +402,7 @@ const getEquipeRecrute = async (id) => {
         },
         body: new URLSearchParams({
             action: 'RecupProfilChercheur',
-            IdUser: 23
+            IdUser: id
         })
     };
 
@@ -546,8 +546,36 @@ const getSalle = async (id) => {
     }
 }
 
+const getInfosEquipeFromChercheur = async (id) => {
+    const url = `${urlBase}/extract.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'RecupInfosEquipe',
+            IdUser: id
+        })
+    };
+
+    try {
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
+}
+
+
+
 export {
     getSalle, envoyerDemande, accepterDemande, getChercheurs, modifierEquipeRecrute, modifierChoixEquipe, modifierMaterielEquipe,
-    supprimerMembreEquipe, ajouterMembreEquipe, modifierNomEquipe, modifierProfilEquipe, getProfilEquipe, getEquipesRecrutant,
+    supprimerMembreEquipe, ajouterMembreEquipe, modifierNomEquipe, modifierProfilEquipe, getProfilEquipe, getEquipesRecrutant, getInfosEquipeFromChercheur,
     modifierProfilChercheur, getProfilChercheur, getChoixEquipe, getMateriels, getMembres, getInfosChercheur, getNomEquipe, getEquipeRecrute
 };

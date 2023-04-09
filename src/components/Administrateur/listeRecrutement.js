@@ -5,8 +5,6 @@ import { getChercheurs, getEquipesRecrutant } from '../../api/apiReact/apiUtilis
 
 
 function ListeRecrutement() {
-    const [donnees, setDonnees] = useState([]);
-
     const [chercheurs, setChercheurs] = useState([]);
     const [equipes, setEquipesQuiRecrutent] = useState([]);
 
@@ -45,7 +43,7 @@ function ListeRecrutement() {
                                     <td>{equipe.Equipe.Nom}</td>
                                     <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
                                     <td>{equipe.Equipe.MailChef}</td>
-                                    <td>{equipe.Membres[0].filiere}</td>
+                                    {/* <td>{equipe.Equipe.PromoMaj}</td> */}
                                 </tr>
                             ))
                         )}

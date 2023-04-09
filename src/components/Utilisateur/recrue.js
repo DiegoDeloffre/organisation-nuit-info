@@ -8,8 +8,9 @@ import { accepterDemande } from '../../api/apiReact/apiUtilisateurs';
 
 function Recrue({ idChercheur, infoChercheur, description, demandeRecue, updateChercheur }) {
     const accepterDemandeChercheur = async () => {
-        await accepterDemande(4, idChercheur);
+        await accepterDemande(parseInt(localStorage.idUser,10), idChercheur);
         updateChercheur();
+        window.location.href = "/accueil2";
     };
 
     return (

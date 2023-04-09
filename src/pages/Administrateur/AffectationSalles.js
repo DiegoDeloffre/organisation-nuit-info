@@ -3,18 +3,18 @@ import "../../styles/Administrateur/Pages/AffectationSalles.css";
 
 import { Button } from '@material-ui/core';
 
-import { getEquipes } from "../../api/apiReact/apiAdministrateur";
+import { getEquipes, affecterSalle } from "../../api/apiReact/apiAdministrateur";
 import { getSalles } from "../../api/apiReact/apitools";
 
 function AffectationSalles() {
-    const [salle, setSalle] = useState("Avosti");
     const [salles, setSalles] = useState([]);
-
     const [equipes, setEquipes] = useState([]);
+    const [affectations, setAffectations] = useState({});
 
     useEffect(() => {
         const recupEquipes = async () => {
             let data = await getEquipes();
+            console.log(data)
             setEquipes(data)
         };
         const recupSalles = async () => {
@@ -24,10 +24,6 @@ function AffectationSalles() {
         recupSalles();
         recupEquipes();
     }, []);
-
-    const handleSalleChange = (event) => {
-        setSalle(event.target.value);
-    };
 
     function handleFirstChoice(choice) {
         switch (choice) {
@@ -47,9 +43,20 @@ function AffectationSalles() {
         }
     }
 
-    function handleConfirmer() {
-        // Code à exécuter lorsque l'utilisateur clique sur le bouton "Valider"
-    }
+    const handleSalleChange = (event, idEquipe) => {
+        const nouvelleAffectation = { ...affectations, [idEquipe]: event.target.value };
+        setAffectations(nouvelleAffectation);
+        console.log(nouvelleAffectation)
+    };
+
+    const affecterSalles = async () => {
+        for (const [idEquipe, idSalle] of Object.entries(affectations)) {
+            // Affectation de la salle correspondante à l'équipe
+            console.log(idEquipe)
+            console.log(idSalle)
+            await affecterSalle(idEquipe, idSalle);
+        }
+    };
 
     return (
         <div className="salles-wrapper">
@@ -68,37 +75,40 @@ function AffectationSalles() {
                     </tr>
                 </thead>
                 <tbody>
-                    {equipes.length === 0 ? (
-                        <></>
-                    ) : (
-                        equipes.map((equipe) => (
-
-                            <tr key={equipe.Equipe.IdEquipe}>
-                                <td>{equipe.Equipe.Nom}</td>
-                                <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
-                                <td>{equipe.Equipe.MailChef}</td>
-                                <td>{equipe.Membres.length + 1}</td>
-                                <td>{equipe.Equipe.PromoMaj}</td>
-                                <td>{handleFirstChoice(equipe.Equipe.SalleEquipe)}</td>
-                                <td>{handleSecondChoice(equipe.Equipe.Isole)}</td>
-                                <td>
-                                    <select value={salle} onChange={handleSalleChange}>
-                                        {salles.length === 0 ? (
-                                            <></>
-                                        ) : (
-                                            salles.map((salle) => (
-                                                <option key={salle.IdSalle} value={salle.Nom}>{salle.Nom}</option>
-                                            ))
-                                        )}
-                                    </select>
-                                </td>
-                            </tr>
-                        ))
-                    )}
+                    {equipes.map((equipe) => (
+                        <tr key={equipe.Equipe.IdEquipe}>
+                            <td>{equipe.Equipe.Nom}</td>
+                            <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
+                            <td>{equipe.Equipe.MailChef}</td>
+                            <td>{equipe.Membres.length + 1}</td>
+                            <td>{equipe.Equipe.PromoMaj}</td>
+                            <td>{handleFirstChoice(equipe.Equipe.SalleEquipe)}</td>
+                            <td>{handleSecondChoice(equipe.Equipe.Isole)}</td>
+                            <td>
+                                <select
+                                    value={affectations[equipe.Equipe.IdEquipe] || ''}
+                                    onChange={(event) => handleSalleChange(event, equipe.Equipe.IdEquipe)}
+                                >
+                                    {equipe.Equipe.Salle !== ""
+                                        ?
+                                        (<option key={equipe.Equipe.Salle} value={equipe.Equipe.Salle}>{equipe.Equipe.Salle}</option>)
+                                        :
+                                        (<option value="">Choisir une salle</option>)
+                                    }
+                                    {salles
+                                        .filter((salle) => salle.Nom !== equipe.Equipe.Salle)
+                                        .map((salle) => (
+                                            <option key={salle.IdSalle} value={salle.IdSalle}>{salle.Nom}</option>
+                                        ))
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
 
-            <Button variant="contained" color="primary" onClick={handleConfirmer}>
+            <Button variant="contained" color="primary" onClick={affecterSalles}>
                 Confirmer
             </Button>
 
@@ -106,7 +116,6 @@ function AffectationSalles() {
                 Retour
             </Button>
         </div>
-
     );
 }
 

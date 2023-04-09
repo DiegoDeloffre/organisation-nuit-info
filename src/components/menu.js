@@ -32,6 +32,12 @@ const Menu = () => {
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
+  function isInscriptionBloque() {
+    if (localStorage.bloque === "true") {
+      window.location.href = "/";
+    }
+  }
+
   function isConnected() {
     if (localStorage.loggedIn === "false") {
       window.location.href = "/";
@@ -44,7 +50,7 @@ const Menu = () => {
     localStorage.removeItem("UserType")
     localStorage.removeItem("UserId")
     console.log(localStorage.loggedIn)
-    // rediriger présentation
+    window.location.href = "/";
   }
 
 
@@ -83,18 +89,19 @@ const Menu = () => {
     <div className="menu">
       <div className="menu__left">
         <Link to="/">Présentation</Link>
-        <Link to="/inscription">inscription</Link>
-        <Link to="/connexion">Connexion</Link>
         <Link to="/reglement">Reglement</Link>
-        <Link to="/accueil1" onClick={isConnected}>Accueil Equipe</Link>
-        <Link to="/accueil2" onClick={isConnected}>Accueil Solo</Link>
-        <Link to="/recruter" onClick={isConnected}>Recruter</Link>
-        <Link to="/administrateur" onClick={isConnected}>Accueil Admin</Link>
-        <Link to="/salles" onClick={isConnected}>Gérer Salles</Link>
-        <Link to="/comparer" onClick={isConnected}>Comparer</Link>
+        {localStorage.UserType === "Chef" ? (
+          <Link to="/accueil1" onClick={isConnected}>Accueil Equipe</Link>
+        ) : localStorage.UserType === "Chercheur" ? (
+          <Link to="/accueil2" onClick={isConnected}>Accueil Solo</Link>
+        ) : localStorage.UserType === "Admin" || localStorage.UserType === "Organisateur" ? (
+          <Link to="/administrateur" onClick={isConnected}>Accueil Admin</Link>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="menu__right">
-        {isConnected ? (
+        {localStorage.loggedIn === "true" ? (
           <div className="menu__dropdown">
             <button onClick={toggleDropdown}>Mon compte</button>
             {showDropdown && (

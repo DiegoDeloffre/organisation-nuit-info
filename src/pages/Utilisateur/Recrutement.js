@@ -7,7 +7,6 @@ import { Button } from '@material-ui/core';
 import { getChercheurs } from '../../api/apiReact/apiUtilisateurs';
 
 function Recrutement() {
-  const [demandeRecue, setdemandeRecue] = useState(false);
   const [chercheurs, setChercheurs] = useState([]);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ function Recrutement() {
     <div className='recrutement'>
       <h2>Recrutement</h2>
       {chercheurs.length === 0 ? (
-        <> oui</>
+        <></>
       ) : (
         chercheurs.map((chercheur) => (
           <React.Fragment key={chercheur.InfosChercheur.IdChercheur}>

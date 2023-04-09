@@ -38,12 +38,10 @@ function AccueilAdmin() {
     };
 
     const bloquer = async () => {
-        console.log("ça bloque sale là")
-        console.log(localStorage.bloque)
         localStorage.bloque === "true" ? localStorage.setItem("bloque", false) : localStorage.setItem("bloque", true)
-
         await bloquerInscriptions();
-        console.log(localStorage.bloque)
+        window.location.href = "/administrateur";
+
     }
 
     const reset = async () => {
@@ -101,7 +99,7 @@ function AccueilAdmin() {
                         Ajouter un organisateur
                     </Button>
                     <Button variant="contained" color="primary" onClick={bloquer}>
-                        Bloquer inscriptions
+                        {localStorage.bloque === "false" ? "Bloquer inscriptions" : "Débloquer inscriptions"}
                     </Button>
                 </div>
 

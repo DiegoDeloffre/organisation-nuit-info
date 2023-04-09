@@ -15,7 +15,7 @@ function Salle() {
     const [salle, setSalle] = useState("");
 
     useEffect(() => {
-        //recupSalle();
+        recupSalle();
         recupChoixEquipe();
     }, []);
 
@@ -50,15 +50,20 @@ function Salle() {
     }
 
     const recupSalle = async () => {
-        let data = await getSalle(4);
-        setSalle(data[0].Nom);
+        let data = await getSalle(parseInt(localStorage.idUser,10));
+        if(data.length !== 0){
+            setSalle(data[0].Nom);
+        }
+        
     };
 
     const recupChoixEquipe = async () => {
-        let data = await getChoixEquipe(4);
-        
-        handleFirstChoice(data[0].SalleEquipe)
-        handleSecondChoice(data[0].Isole)
+        let data = await getChoixEquipe(parseInt(localStorage.idUser,10));
+        if (data.length !== 0) {
+            handleFirstChoice(data[0].SalleEquipe)
+            handleSecondChoice(data[0].Isole)
+        }
+
     };
 
     const modifChoixEquipe = async () => {
@@ -78,7 +83,7 @@ function Salle() {
         }
         console.log(firstChoice)
         console.log(secondChoice)
-        await modifierChoixEquipe(4, firstChoice, secondChoice);
+        await modifierChoixEquipe(parseInt(localStorage.idUser,10), firstChoice, secondChoice);
         recupChoixEquipe();
     };
 
@@ -97,10 +102,6 @@ function Salle() {
 
     function handleDeuxiemeChoixChange(event) {
         setDeuxiemeChoix(event.target.value);
-    }
-
-    function handleValiderClick() {
-        // Code à exécuter lorsque l'utilisateur clique sur le bouton "Valider"
     }
 
     return (
@@ -141,9 +142,12 @@ function Salle() {
                                 </label>
                             </div>
                         </div>
-                        <Button variant="contained" color="primary" onClick={modifChoixEquipe} disabled={isButtonDisabled}>
-                            Valider
-                        </Button>
+                        {localStorage.bloque === "false" &&
+                            <Button variant="contained" color="primary" onClick={modifChoixEquipe} disabled={isButtonDisabled}>
+                                Valider
+                            </Button>
+                        }
+
                     </>
                     )
                 }

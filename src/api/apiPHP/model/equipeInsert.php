@@ -96,7 +96,7 @@ function AcceptDemande($IdUser,$IdChercheur){
 function UpdateTeamSalle($IdUser, $IdSalle){
 	global $bd;
 	$sql="UPDATE equipe SET IdSalle=:IdSalle WHERE IdEquipe=:IdEquipe";
-	$marqueur=array('IdSalle'=>$IdSalle,'IdEquipe'=>getIdEquipeFromIdUser($IdUser)[0]);
+	$marqueur=array('IdSalle'=>$IdSalle,'IdEquipe'=>$IdUser);
 	$req = $bd->prepare($sql);
 	$req->execute($marqueur);
 	$req->closeCursor();

@@ -84,8 +84,8 @@ if(!empty($_POST["action"])){
             }
             break;
         case "AffecterSalle":
-            if(!empty($_POST["IdUser"]) && !empty($_POST["IdSalle"])){
-                UpdateTeamSalle($_POST["IdUser"],$_POST["IdSalle"]);
+            if(!empty($_POST["IdEquipe"]) && !empty($_POST["IdSalle"])){
+                UpdateTeamSalle($_POST["IdEquipe"],$_POST["IdSalle"]);
             }
             break;
         case "ModifierProfilChercheur":

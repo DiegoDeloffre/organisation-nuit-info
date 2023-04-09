@@ -15,7 +15,7 @@ function AccueilAvecEquipe() {
 
     useEffect(() => {
         const recupRecrute = async () => {
-            //let data = await getMateriels(23);
+            //let data = await getRecrute(parseInt(localStorage.idUser,10));
             //setRecrute(data === 0 ? false : true)
         };
         recupRecrute();
@@ -23,7 +23,7 @@ function AccueilAvecEquipe() {
     }, []);
 
     const modifierRecrute = async () => {
-        await modifierEquipeRecrute(4);
+        await modifierEquipeRecrute(parseInt(localStorage.idUser,10));
         setRecrute(!recrute);
     };
 

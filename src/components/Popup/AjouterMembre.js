@@ -22,9 +22,13 @@ function AjouterMembre({ onClose, updateMembre }) {
     }, []);
 
     const ajouterMembre = async () => {
-        await ajouterMembreEquipe(4, nom, prenom, mail, filiere);
-        updateMembre()
-        onClose();
+        if (nom === "" || prenom === "" || mail === "") {
+            window.alert("Des champs sont vides. Veuillez les remplir s'il vous plait.")
+        } else {
+            await ajouterMembreEquipe(parseInt(localStorage.idUser), nom, prenom, mail, filiere);
+            updateMembre()
+            onClose();
+        }
     };
 
     const handleNomChange = (event) => {

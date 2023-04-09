@@ -3,16 +3,30 @@ import "../../styles/Utilisateur/Pages/AccueilSansEquipe.css"
 
 import ProfilAgent from "../../components/Utilisateur/profilAgent";
 import EquipeListe from "../../components/Utilisateur/equipeListe";
-import { getEquipesRecrutant } from '../../api/apiReact/apiUtilisateurs';
+import { getEquipesRecrutant, getInfosEquipeFromChercheur } from '../../api/apiReact/apiUtilisateurs';
 
-function AccueilSansEquipe() { 
+function AccueilSansEquipe() {
   const [hasJoinedATeam, sethasJoinedATeam] = useState(false);
+  const [infosEquipe, setInfosEquipe] = useState([]);
   const [equipesQuiRecrutent, setEquipesQuiRecrutent] = useState([]);
 
   useEffect(() => {
+    const getInfosEquipe = async () => {
+      let data = await getInfosEquipeFromChercheur(parseInt(localStorage.idUser,10));
+      if (data.length !== 0) {
+        sethasJoinedATeam(true)
+        setInfosEquipe(data[0])
+      }
+      console.log(data)
+    };
+
+    getInfosEquipe();
+
     const getEquipesQuiRecrutent = async () => {
       let data = await getEquipesRecrutant();
-      setEquipesQuiRecrutent(data);
+      if (data.length !== 0) {
+        setEquipesQuiRecrutent(data);
+      }
     };
 
     getEquipesQuiRecrutent();
@@ -23,14 +37,14 @@ function AccueilSansEquipe() {
     {hasJoinedATeam ? (
       <>
         <h2>Vous avez rejoint l'équipe</h2>
-        <h3>Nom de l'équipe</h3>
+        <h3>{infosEquipe.Nom}</h3>
 
         <h2>Le chef d'équipe</h2>
-        <h3>Jean-Paul Michel</h3>
-        <h3>jean-paul.michel@etu.univ-tours.fr</h3>
+        <h3>{infosEquipe.NomChef} {infosEquipe.PrenomChef}</h3>
+        <h3>{infosEquipe.MailChef}</h3>
 
         <h2>Vous êtes dans la salle</h2>
-        <h3>Non affectée (Attendez la réunion)</h3>
+        <h3>{infosEquipe.Salle !== "" ? infosEquipe.Salle : "Pas de salle affectée"}</h3>
       </>
     ) : (
       <>
@@ -52,6 +66,7 @@ function AccueilSansEquipe() {
                 chef={equipe.Equipe.MailChef}
                 nomChef={equipe.Equipe.NomChef}
                 prenomChef={equipe.Equipe.PrenomChef}
+                demandes={equipe.Demandes}
               />
               <hr />
             </React.Fragment>

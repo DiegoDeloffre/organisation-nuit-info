@@ -11,7 +11,7 @@ function Inscription() {
   const [nom, setNom] = useState('');
   const [prenom, setPrenom] = useState('');
   const [creerEquipe, setCreerEquipe] = useState(true);
-  const [promo, setPromo] = useState("");
+  const [promo, setPromo] = useState("DI5");
   const [nomEquipe, setNomEquipe] = useState("");
   const [filieres, setFilieres] = useState([]);
 
@@ -58,18 +58,26 @@ function Inscription() {
   };
 
   const ajouterUtilisateur = async () => {
-    let type;
-    if (creerEquipe) {
-      type = "Chef"
+    if (email === "" || password === "" || confirmPassword === "" || nom === "" || prenom === "") {
+      window.alert("Des champs sont vides. Veuillez les remplir s'il vous plait.")
     } else {
-      type = "Chercheur"
+      if (password !== confirmPassword) {
+        window.alert("Vous n'avez pas saisi le même mot de passe")
+      } else {
+        let type;
+        if (creerEquipe) {
+          type = "Chef"
+        } else {
+          type = "Chercheur"
+        }
+        if (nomEquipe === "") {
+          await inscription(email, password, nom, prenom, promo, type);
+        } else {
+          await inscription(email, password, nom, prenom, promo, type, nomEquipe);
+        }
+        window.location.href = "/connexion";
+      }
     }
-    if (nomEquipe === "") {
-      await inscription(email, password, nom, prenom, promo, type);
-    } else {
-      await inscription(email, password, nom, prenom, promo, type, nomEquipe);
-    }
-    // rediriger vers connexion
   };
 
   return (<div className='global'>

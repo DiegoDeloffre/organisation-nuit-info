@@ -96,51 +96,6 @@ function ListeMatériels() {
                                 </tr>
                             ))
                         )}
-                        <tr key={1}>
-                            <td>Equipe 1</td>
-                            <td></td>
-                            <td>
-                                <ul>
-                                    <li>Multiprises : 1</li>
-                                    <li>Ecrans : 2</li>
-                                    <li>Claviers : 4</li>
-                                    <li>Souris : 0</li>
-                                </ul>
-                                <ul>
-                                    <li>Videoproj</li>
-                                </ul>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr key={2}>
-                            <td>Equipe 2</td>
-                            <td></td>
-                            <td>
-                                <ul>
-                                    <li>Multiprises : 1</li>
-                                    <li>Ecrans : 2</li>
-                                    <li>Claviers : 4</li>
-                                    <li>Souris : 0</li>
-                                </ul>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-
-                        {/* {donnees.map((donneesLigne) => (
-                <tr key={donneesLigne.id}>
-                    <td>{donneesLigne.equipe}</td>
-                    <td>{donneesLigne.nom}</td>
-                    <td>{donneesLigne.prenom}</td>
-                    <td>{donneesLigne.mail}</td>
-                    <td>{donneesLigne.promo}</td>
-                    <td>{donneesLigne.salle}</td>
-                </tr>
-                ))} */}
                     </tbody>
                 </table>
             </div>

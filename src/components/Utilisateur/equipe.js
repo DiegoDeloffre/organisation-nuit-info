@@ -16,35 +16,36 @@ function Equipe() {
     const [showPopup, setShowPopup] = useState(false);
     const [membres, setMembres] = useState([])
     const [chef, setChef] = useState([])
-    const [name, setName] = useState("L'équipe");
+    const [name, setName] = useState("Nom de l'équipe");
 
     useEffect(() => {
         const recupMembres = async () => {
-            let data = await getMembres(4);
+            let data = await getMembres(parseInt(localStorage.idUser,10));
             setMembres(data.Membres)
             setChef(data.Chef)
         };
 
         const recupNomEquipe = async () => {
-            let data = await getNomEquipe(4);
-            setName(data[0].Nom)
+            let data = await getNomEquipe(parseInt(localStorage.idUser,10));
+            { data.length !== 0 && setName(data[0].Nom) }
+
         };
         recupMembres();
         recupNomEquipe();
     }, []);
 
     const recupNomEquipe2 = async () => {
-        let data = await getNomEquipe(4);
+        let data = await getNomEquipe(parseInt(localStorage.idUser,10));
         setName(data[0].Nom)
     };
 
     const modifNomEquipe = async (nom) => {
-        await modifierNomEquipe(4, nom);
+        await modifierNomEquipe(parseInt(localStorage.idUser,10), nom);
         recupNomEquipe2()
     };
 
     const updateMembres = async () => {
-        let data = await getMembres(4);
+        let data = await getMembres(parseInt(localStorage.idUser,10));
         setMembres(data.Membres)
     };
 
@@ -83,11 +84,14 @@ function Equipe() {
             )}
         </div>
 
-        <div className="equipe-button">
-            <Button variant="contained" color="primary" onClick={() => setAfficherPopup(true)}>
-                Ajouter
-            </Button>
-        </div>
+        {localStorage.bloque === "false" &&
+            <div className="equipe-button">
+                <Button variant="contained" color="primary" onClick={() => setAfficherPopup(true)}>
+                    Ajouter
+                </Button>
+            </div>
+        }
+
 
         {afficherPopup && <AjouterMembre onClose={() => setAfficherPopup(false)} updateMembre={updateMembres} />}
         {showPopup && <ModifierNomEquipe value={name} onClose={() => setShowPopup(false)} onSave={modifNomEquipe} />}

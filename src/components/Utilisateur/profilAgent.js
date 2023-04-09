@@ -12,13 +12,12 @@ function ProfilAgent() {
 
   useEffect(() => {
     const recupInfosChercheur = async () => {
-      let data = await getInfosChercheur(23);
-      console.log(data)
+      let data = await getInfosChercheur(parseInt(localStorage.idUser,10));
       setInfosChercheur(data[0]);
     };
 
     const recupProfilChercheur = async () => {
-      let data = await getProfilChercheur(23);
+      let data = await getProfilChercheur(parseInt(localStorage.idUser,10));
       setDescription(data);
     };
     recupProfilChercheur();
@@ -27,12 +26,12 @@ function ProfilAgent() {
 
 
   const recupProfilChercheur = async () => {
-    let data = await getProfilChercheur(23);
+    let data = await getProfilChercheur(parseInt(localStorage.idUser,10));
     setDescription(data);
   };
 
   const modifierProfil = async (newDescription) => {
-    await modifierProfilChercheur(23, newDescription);
+    await modifierProfilChercheur(parseInt(localStorage.idUser,10), newDescription);
     recupProfilChercheur();
   };
 

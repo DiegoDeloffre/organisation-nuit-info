@@ -5,9 +5,8 @@ export const tutoChercheur = {
             title: "Profil de l'utilisateur",
             content:
                 <div>
-                    <p>Voici la composition de votre équipe. Vous êtes déjà inscrit en tant que chef.</p>
-                    <p>Vous pouvez ajouter des membres en cliquant sur le bouton 'Ajouter'. Ainsi, vous pouvez renseigner le nom, prénom, la filière ainsi que l'adresse mail du nouveau membre. </p>
-                    <p>Vous pouvez également supprimer des membres à l'aide du bouton situé à droite de chaque membre.</p>
+                    <p>Voici votre profil de chercheur. Cette description sert à définir quelle type de personne vous êtes (sérieux/fun, expérimenté/débutant) ainsi que vos domaines de compétences.</p>
+                    <p>Ainsi, les chefs d'équipes pourront plus facilement voir si votre profil correspond à leur équipe et ils pourront ainsi plus facilement vous proposer de rejoindre leur équipe.</p>
                 </div>,
             placement: 'bottom'
         },
@@ -126,44 +125,44 @@ export const tutoEquipe = {
 
 export const tutoRecrutement = {
     steps: [
-      {
-        target: '.recrue',
-        title: "Recrue potentielle",
-        content:
-          <div>
-            <p>Sur cette page vous pouvez voir la liste des personnes sans équipe avec différentes informations les concernant.</p>
-            <p>Si vous êtes sur cette page, c'est que vous êtes ouvert à accueillir un nouveau membre dans votre équipe. C'est sur cette page que le processus de recrutement aura lieu.</p>
-            <p>Sachez également que les personnes sans équipes ont une page similaire et ont accès à votre mail.</p>
-          </div>
-      },
-      {
-        target: '.recrue-infos',
-        title: "Informations de l'étudiant",
-        content: "Voici les informations de l'étudiant avec son Nom, son Prénom et sa Filière"
-      },
-      {
-        target: '.recrue-description',
-        title: "Profil de l'étudiant",
-        content:
-        <div>
-          <p>Ici, vous pouvez voir la description rédigée par l'étudiant.</p>
-          <p>Vous pouvez ainsi voir ses compétences et intentions pour la nuit de l'info et ainsi choisir la recrue parfaite pour votre équipe.</p>
-        </div>
-      },
-      {
-        target: '.recrue-button-message',
-        title: "Membres de l'équipe",
-        content: "Avec ce bouton vous pouvez avoir les coordonnées de l'étudiant si vous souhaitez le contacter.",
-      },
-      {
-        target: '.recrue-button-demande',
-        title: "Profil de l'équipe",
-        content:
-        <div>
-          <p>Ce bouton permet d'accpeter la demande d'un étudiant et de l'ajouter à votre équipe. Ainsi, lorsque vous cliquez sur le bouton, le compte de l'étudiant est supprimé et il est automatiquement ajouté dans votre équipe.</p>
-          <p>Pensez à mettre à jour le matériel nécessaire de votre équipe et également bien rester en contact avec votre nouvelle recrue pour lui transmettre les informations nécessaires.</p>
-          <p>PS : Ce bouton ne sera cliquable que si l'étudiant a fait une demande pour rejoindre votre équipe.</p>
-        </div>
-      }
+        {
+            target: '.recrue',
+            title: "Recrue potentielle",
+            content:
+                <div>
+                    <p>Sur cette page vous pouvez voir la liste des personnes sans équipe avec différentes informations les concernant.</p>
+                    <p>Si vous êtes sur cette page, c'est que vous êtes ouvert à accueillir un nouveau membre dans votre équipe. C'est sur cette page que le processus de recrutement aura lieu.</p>
+                    <p>Sachez également que les personnes sans équipes ont une page similaire et ont accès à votre mail.</p>
+                </div>
+        },
+        {
+            target: '.recrue-infos',
+            title: "Informations de l'étudiant",
+            content: "Voici les informations de l'étudiant avec son Nom, son Prénom et sa Filière"
+        },
+        {
+            target: '.recrue-description',
+            title: "Profil de l'étudiant",
+            content:
+                <div>
+                    <p>Ici, vous pouvez voir la description rédigée par l'étudiant.</p>
+                    <p>Vous pouvez ainsi voir ses compétences et intentions pour la nuit de l'info et ainsi choisir la recrue parfaite pour votre équipe.</p>
+                </div>
+        },
+        {
+            target: '.recrue-button-message',
+            title: "Membres de l'équipe",
+            content: "Avec ce bouton vous pouvez avoir les coordonnées de l'étudiant si vous souhaitez le contacter.",
+        },
+        {
+            target: '.recrue-button-demande',
+            title: "Profil de l'équipe",
+            content:
+                <div>
+                    <p>Ce bouton permet d'accpeter la demande d'un étudiant et de l'ajouter à votre équipe. Ainsi, lorsque vous cliquez sur le bouton, le compte de l'étudiant est supprimé et il est automatiquement ajouté dans votre équipe.</p>
+                    <p>Pensez à mettre à jour le matériel nécessaire de votre équipe et également bien rester en contact avec votre nouvelle recrue pour lui transmettre les informations nécessaires.</p>
+                    <p>PS : Ce bouton ne sera cliquable que si l'étudiant a fait une demande pour rejoindre votre équipe.</p>
+                </div>
+        }
     ]
-  };
+};

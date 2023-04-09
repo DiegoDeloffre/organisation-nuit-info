@@ -15,19 +15,41 @@ function Connexion() {
     };
 
     const connexion = async () => {
-        let data = await login(email, password);
-        localStorage.setItem("loggedIn", true);
-        localStorage.setItem("UserType", data.Type);
-        localStorage.setItem("UserId", data.IdUser);
-        isBloque()
+        if (email === "" || password === "") {
+            window.alert("Des champs sont vides. Veuillez les remplir s'il vous plait.")
+        } {
+            let data = await login(email, password);
+            if (data.length === 0) {
+                window.alert("Aucun compte n'existe avec cette adresse mail et ce mot de passe")
+            } else {
+                localStorage.setItem("loggedIn", true);
+                localStorage.setItem("UserType", data.Type);
+                localStorage.setItem("UserId", data.IdUser);
+                isBloque()
+                switch (localStorage.UserType) {
+                    case "Admin":
+                        window.location.href = "/admin";
+                        break;
+                    case "Organisateur":
+                        window.location.href = "/admin";
+                        break;
+                    case "Chef":
+                        window.location.href = "/accueil1";
+                        break;
+                    case "Chercheur":
+                        window.location.href = "/accueil2";
+                        break;
+                }
+            }
+        }
     };
 
     const isBloque = async () => {
         let data = await getBloque();
         console.log(data)
-        data === 1 ? localStorage.setItem("bloque", true): localStorage.setItem("bloque", false);
+        data === 1 ? localStorage.setItem("bloque", true) : localStorage.setItem("bloque", false);
         console.log(localStorage.bloque)
-        
+
     };
 
     return (<div className='global'>
@@ -56,7 +78,10 @@ function Connexion() {
             Se Connecter
         </Button>
         <br />
-        <a href='/inscription'>Pas encore de compte. Inscrivez-vous !</a>
+        {localStorage.bloque === "false" &&
+            <a href='/inscription'>Pas encore de compte. Inscrivez-vous !</a>
+        }
+
     </div>
     )
 

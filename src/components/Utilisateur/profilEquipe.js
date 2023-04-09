@@ -9,19 +9,20 @@ import { getProfilEquipe, modifierProfilEquipe } from "../../api/apiReact/apiUti
 
 function ProfilEquipe() {
     const [showPopup, setShowPopup] = useState(false);
-    const [profil, setProfil] = useState("");
+    const [profil, setProfil] = useState("Description de l'équipe");
 
     useEffect(() => {
         recupProfil();
     }, []);
 
     const recupProfil = async () => {
-        let data = await getProfilEquipe(4);
-        setProfil(data[0].Description);
+        let data = await getProfilEquipe(parseInt(localStorage.idUser,10));
+        {data.length !== 0 && setProfil(data[0].Description)}
+        
     };
 
     const modifierProfil = async (description) => {
-        await modifierProfilEquipe(4, description);
+        await modifierProfilEquipe(parseInt(localStorage.idUser,10), description);
         recupProfil();
     };
     

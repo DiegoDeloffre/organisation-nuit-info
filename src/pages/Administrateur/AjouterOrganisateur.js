@@ -9,13 +9,17 @@ function AjouterOrganisateur() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [typeUtilisateur, setTypeUtilisateur] = useState('');
- 
+    const [typeUtilisateur, setTypeUtilisateur] = useState('Admin');
+
     const addOrganisateur = async () => {
-        console.log(email)
-        console.log(password)
-        console.log(typeUtilisateur)
-        await ajouterOrganisateur(email, password, typeUtilisateur);
+        if (email === "" || password === "") {
+            window.alert("Des champs sont vides. Veuillez les remplir s'il vous plait.")
+        } else {
+            console.log(email)
+            console.log(password)
+            console.log(typeUtilisateur)
+            await ajouterOrganisateur(email, password, typeUtilisateur);
+        }
     };
 
     const handletypeUtilisateur = (event) => {
@@ -41,16 +45,16 @@ function AjouterOrganisateur() {
             <div className='inscription-inner'>
                 <div className='labels'>
                     <label>
-                        Email : 
+                        Email :
                     </label>
                     <label>
-                        Mot de passe : 
+                        Mot de passe :
                     </label>
                     <label>
-                        Confirmer mot de passe : 
+                        Confirmer mot de passe :
                     </label>
                     <label>
-                        Type d'utilisateur : 
+                        Type d'utilisateur :
                     </label>
                 </div>
 
@@ -69,6 +73,10 @@ function AjouterOrganisateur() {
         <br />
         <Button variant="contained" color="primary" type="submit" onClick={addOrganisateur}>
             Confirmer
+        </Button>
+
+        <Button variant="contained" color="primary" href="/administrateur">
+            Retour
         </Button>
     </div>
     )

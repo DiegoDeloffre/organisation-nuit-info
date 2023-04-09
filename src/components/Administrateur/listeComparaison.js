@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../../styles/Administrateur/Components/listeRecrutement.css";
 
-import { getChercheurs, getEquipesRecrutant } from '../../api/apiReact/apiUtilisateurs';
-
+import { v4 as uuidv4 } from 'uuid';
 
 function ListeComparaison({ liste1, liste2 }) {
 
@@ -23,7 +22,7 @@ function ListeComparaison({ liste1, liste2 }) {
                             <></>
                         ) : (
                             liste1.map((etudiant) => (
-                                <tr key={etudiant.mail}>
+                                <tr key={uuidv4()}>
                                     <td>{etudiant.nom}</td>
                                     <td>{etudiant.prenom}</td>
                                     <td>{etudiant.mail}</td>
@@ -49,7 +48,7 @@ function ListeComparaison({ liste1, liste2 }) {
                         ) : (
                             
                             liste2.map((etudiant2) => (
-                                <tr key={etudiant2.mail}>
+                                <tr key={uuidv4()}>
                                     <td>{etudiant2.nom}</td>
                                     <td>{etudiant2.prenom}</td>
                                     <td>{etudiant2.mail}</td>

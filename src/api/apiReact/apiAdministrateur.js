@@ -174,7 +174,6 @@ const bloquerInscriptions = async () => {
 }
 
 const comparerListes = async (dataJson) => {
-    console.log(dataJson)
     const url = `${urlBase}/extract.php`;
     const requestOptions = {
         method: 'POST',
@@ -189,7 +188,6 @@ const comparerListes = async (dataJson) => {
 
     try {
         const response = await fetch(url, requestOptions);
-        console.log(response)
         if (!response.ok) {
             throw new Error('La requête a échoué');
         }
@@ -201,16 +199,35 @@ const comparerListes = async (dataJson) => {
     }
 }
 
-const getInfosSalle = async () => {
 
-}
+const affecterSalle = async (idEquipe, idSalle) => {
+    const url = `${urlBase}/insert.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'AffecterSalle',
+            IdEquipe : idEquipe,
+            IdSalle : idSalle
+        })
+    };
 
-const affecterSalles = async () => {
-
+    try {
+        const response = await fetch(url, requestOptions);
+        console.log(response)
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
 }
 
 
 export {
-    affecterSalles, getInfosSalle, comparerListes, bloquerInscriptions, resetDatabase, ajouterOrganisateur, getMaterielsGlobal, getMaterielsParEquipe,
+    affecterSalle, comparerListes, bloquerInscriptions, resetDatabase, ajouterOrganisateur, getMaterielsGlobal, getMaterielsParEquipe,
     getParticipants, getEquipes
 };

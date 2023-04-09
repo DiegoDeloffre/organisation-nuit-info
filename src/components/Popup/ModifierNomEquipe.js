@@ -8,9 +8,8 @@ function ModifierNomEquipe({ value, onSave, onClose }) {
     const handleChange = (event) => {
         setEquipe(event.target.value);
     };
-
+ 
     const handleModifier = (event) => {
-        // modifier desc
         onSave(nomEquipe);
         onClose();
     };

@@ -13,6 +13,7 @@
   .menu__left {
     display: flex;
     align-items: center;
+    width: 50%;
   }
   
   .menu__left a {
@@ -23,7 +24,9 @@
   
   .menu__right {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
+    width: 50%;
   }
   
   .menu__right button,
