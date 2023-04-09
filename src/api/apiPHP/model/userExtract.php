@@ -1,10 +1,10 @@
 <?php
-//include 'utils.php';
+include 'utils.php';
 
 function connectUser($Mail,$MDP){
     global $bd;
     $sql="SELECT users.IdUser,type.Nom AS 'Type' FROM users INNER JOIN type WHERE users.Mail=:Mail AND users.MDP=:MDP AND type.IdType = users.IdType";
-	$marqueur=array('Mail'=>$Mail,'MDP'=>$MDP);
+	$marqueur=array('Mail'=>$Mail,'MDP'=>encryptPassword($MDP));
 	$req = $bd->prepare($sql);
 	$req->execute($marqueur);
 	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
