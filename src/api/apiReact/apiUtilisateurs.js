@@ -19,7 +19,7 @@ const getProfilChercheur = async (id) => {
             throw new Error('La requête a échoué');
         }
         const data = await response.json();
-        return data[0].Description;
+        return data;
     } catch (error) {
         console.error(error);
         throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
@@ -111,6 +111,32 @@ const getProfilEquipe = async (id) => {
         },
         body: new URLSearchParams({
             action: 'RecupProfilEquipe',
+            IdUser: id
+        })
+    };
+
+    try {
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error('La requête a échoué');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw new Error(`Une erreur est survenue lors de la requête: ${error.message}`);
+    }
+}
+
+const getRecrute = async (id) => {
+    const url = `${urlBase}/extract.php`;
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            action: 'getRecrute',
             IdUser: id
         })
     };
@@ -538,7 +564,6 @@ const getSalle = async (id) => {
             throw new Error('La requête a échoué');
         }
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.error(error);
@@ -575,7 +600,7 @@ const getInfosEquipeFromChercheur = async (id) => {
 
 
 export {
-    getSalle, envoyerDemande, accepterDemande, getChercheurs, modifierEquipeRecrute, modifierChoixEquipe, modifierMaterielEquipe,
+    getSalle, envoyerDemande, accepterDemande, getChercheurs, modifierEquipeRecrute, modifierChoixEquipe, modifierMaterielEquipe, getRecrute,
     supprimerMembreEquipe, ajouterMembreEquipe, modifierNomEquipe, modifierProfilEquipe, getProfilEquipe, getEquipesRecrutant, getInfosEquipeFromChercheur,
     modifierProfilChercheur, getProfilChercheur, getChoixEquipe, getMateriels, getMembres, getInfosChercheur, getNomEquipe, getEquipeRecrute
 };

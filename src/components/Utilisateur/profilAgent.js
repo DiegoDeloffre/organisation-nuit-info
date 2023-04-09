@@ -12,13 +12,13 @@ function ProfilAgent() {
 
   useEffect(() => {
     const recupInfosChercheur = async () => {
-      let data = await getInfosChercheur(parseInt(localStorage.idUser,10));
-      setInfosChercheur(data[0]);
+      let data = await getInfosChercheur(localStorage.UserId);
+      setInfosChercheur(data);
     };
 
     const recupProfilChercheur = async () => {
-      let data = await getProfilChercheur(parseInt(localStorage.idUser,10));
-      setDescription(data);
+      let data = await getProfilChercheur(localStorage.UserId);
+      setDescription(data[0].Description);
     };
     recupProfilChercheur();
     recupInfosChercheur();
@@ -26,12 +26,12 @@ function ProfilAgent() {
 
 
   const recupProfilChercheur = async () => {
-    let data = await getProfilChercheur(parseInt(localStorage.idUser,10));
-    setDescription(data);
+    let data = await getProfilChercheur(localStorage.UserId);
+    setDescription(data[0].Description);
   };
 
   const modifierProfil = async (newDescription) => {
-    await modifierProfilChercheur(parseInt(localStorage.idUser,10), newDescription);
+    await modifierProfilChercheur(localStorage.UserId, newDescription);
     recupProfilChercheur();
   };
 
@@ -47,7 +47,10 @@ function ProfilAgent() {
         />
       </div>
       <h2>Profil</h2>
-      <p>{infosChercheur.Nom} {infosChercheur.Prenom} {infosChercheur.Filiere}</p>
+      {infosChercheur.length !== 0 && (
+        <p>{infosChercheur[0].Nom} {infosChercheur[0].Prenom} {infosChercheur[0].Filiere}</p>
+      )}
+
       <p>{description}</p>
       {showPopup && (
         <ModifierProfilEquipe

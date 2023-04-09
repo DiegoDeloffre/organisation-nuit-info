@@ -21,7 +21,7 @@ function Materiels() {
   }, []);
 
   const recupMateriel = async () => {
-    let data = await getMateriels(parseInt(localStorage.idUser,10));
+    let data = await getMateriels(localStorage.UserId);
     if (data.length !== 0) {
       setValeur(parseInt(data[0].Multiprises, 10))
       setValeur1(parseInt(data[0].Ecrans, 10))
@@ -34,7 +34,7 @@ function Materiels() {
   };
 
   const modifierMateriel = async () => {
-    await modifierMaterielEquipe(parseInt(localStorage.idUser,10), valeur, valeur1, valeur2, valeur3, valeur4);
+    await modifierMaterielEquipe(localStorage.UserId, valeur, valeur1, valeur2, valeur3, valeur4);
     recupMateriel()
   };
 

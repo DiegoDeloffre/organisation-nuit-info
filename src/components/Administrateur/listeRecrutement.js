@@ -43,7 +43,7 @@ function ListeRecrutement() {
                                     <td>{equipe.Equipe.Nom}</td>
                                     <td>{equipe.Equipe.NomChef} {equipe.Equipe.PrenomChef}</td>
                                     <td>{equipe.Equipe.MailChef}</td>
-                                    {/* <td>{equipe.Equipe.PromoMaj}</td> */}
+                                    <td>{equipe.Equipe.PromoMaj}</td>
                                 </tr>
                             ))
                         )}

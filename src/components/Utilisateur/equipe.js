@@ -20,13 +20,13 @@ function Equipe() {
 
     useEffect(() => {
         const recupMembres = async () => {
-            let data = await getMembres(parseInt(localStorage.idUser,10));
+            let data = await getMembres(localStorage.UserId);
             setMembres(data.Membres)
             setChef(data.Chef)
         };
 
         const recupNomEquipe = async () => {
-            let data = await getNomEquipe(parseInt(localStorage.idUser,10));
+            let data = await getNomEquipe(localStorage.UserId);
             { data.length !== 0 && setName(data[0].Nom) }
 
         };
@@ -35,17 +35,17 @@ function Equipe() {
     }, []);
 
     const recupNomEquipe2 = async () => {
-        let data = await getNomEquipe(parseInt(localStorage.idUser,10));
+        let data = await getNomEquipe(localStorage.UserId);
         setName(data[0].Nom)
     };
 
     const modifNomEquipe = async (nom) => {
-        await modifierNomEquipe(parseInt(localStorage.idUser,10), nom);
+        await modifierNomEquipe(localStorage.UserId, nom);
         recupNomEquipe2()
     };
 
     const updateMembres = async () => {
-        let data = await getMembres(parseInt(localStorage.idUser,10));
+        let data = await getMembres(localStorage.UserId);
         setMembres(data.Membres)
     };
 

@@ -16,13 +16,13 @@ function ProfilEquipe() {
     }, []);
 
     const recupProfil = async () => {
-        let data = await getProfilEquipe(parseInt(localStorage.idUser,10));
+        let data = await getProfilEquipe(localStorage.UserId);
         {data.length !== 0 && setProfil(data[0].Description)}
         
     };
 
     const modifierProfil = async (description) => {
-        await modifierProfilEquipe(parseInt(localStorage.idUser,10), description);
+        await modifierProfilEquipe(localStorage.UserId, description);
         recupProfil();
     };
     

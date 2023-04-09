@@ -50,7 +50,7 @@ function Salle() {
     }
 
     const recupSalle = async () => {
-        let data = await getSalle(parseInt(localStorage.idUser,10));
+        let data = await getSalle(localStorage.UserId);
         if(data.length !== 0){
             setSalle(data[0].Nom);
         }
@@ -58,7 +58,7 @@ function Salle() {
     };
 
     const recupChoixEquipe = async () => {
-        let data = await getChoixEquipe(parseInt(localStorage.idUser,10));
+        let data = await getChoixEquipe(localStorage.UserId);
         if (data.length !== 0) {
             handleFirstChoice(data[0].SalleEquipe)
             handleSecondChoice(data[0].Isole)
@@ -83,7 +83,7 @@ function Salle() {
         }
         console.log(firstChoice)
         console.log(secondChoice)
-        await modifierChoixEquipe(parseInt(localStorage.idUser,10), firstChoice, secondChoice);
+        await modifierChoixEquipe(localStorage.UserId, firstChoice, secondChoice);
         recupChoixEquipe();
     };
 

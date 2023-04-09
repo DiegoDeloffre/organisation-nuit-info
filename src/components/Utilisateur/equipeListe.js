@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 import Contacter from '../Popup/Contacter';
 import { envoyerDemande } from '../../api/apiReact/apiUtilisateurs';
 
-function EquipeListe({ idEquipe, nomEquipe, description, isole, salleEquipe, membres, chef, nomChef, prenomChef, demandes }) {
+function EquipeListe({ idEquipe, nomEquipe, description, isole, salleEquipe, membres, chef, nomChef, prenomChef, filiereChef,demandes }) {
     const [contact, setContact] = useState(false);
     const [boutonDemande, setBoutonDemande] = useState(true);
 
@@ -36,7 +36,7 @@ function EquipeListe({ idEquipe, nomEquipe, description, isole, salleEquipe, mem
     }
 
     const sendDemande = async () => {
-        await envoyerDemande(parseInt(localStorage.idUser,10), idEquipe);
+        await envoyerDemande(localStorage.UserId, idEquipe);
         setBoutonDemande(false)
         window.alert("Demande envoyée !")
     }
@@ -45,7 +45,7 @@ function EquipeListe({ idEquipe, nomEquipe, description, isole, salleEquipe, mem
         <div className='equipe-liste'>
             <h2>{nomEquipe}</h2>
             <p className='equipe-membre-recrute'>
-                {nomChef} {prenomChef} <br></br>
+                {nomChef} {prenomChef} {filiereChef}<br></br>
                 {membres.length !== 0 &&
                     <React.Fragment>
                         {membres[0].Nom} {membres[0].Prenom} {membres[0].filiere}<br></br>

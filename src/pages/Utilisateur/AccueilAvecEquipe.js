@@ -8,22 +8,24 @@ import Materiel from "../../components/Utilisateur/materiels"
 
 import { Button, Switch } from '@material-ui/core';
 
-import { modifierEquipeRecrute } from '../../api/apiReact/apiUtilisateurs';
+import { modifierEquipeRecrute, getRecrute } from '../../api/apiReact/apiUtilisateurs';
 
 function AccueilAvecEquipe() {
     const [recrute, setRecrute] = useState(false);
 
     useEffect(() => {
         const recupRecrute = async () => {
-            //let data = await getRecrute(parseInt(localStorage.idUser,10));
-            //setRecrute(data === 0 ? false : true)
+            let data = await getRecrute(localStorage.UserId);
+            console.log(data)
+            setRecrute(data === "0" ? false : true)
         };
         recupRecrute();
 
     }, []);
 
     const modifierRecrute = async () => {
-        await modifierEquipeRecrute(parseInt(localStorage.idUser,10));
+        console.log(localStorage.UserId)
+        await modifierEquipeRecrute(localStorage.UserId);
         setRecrute(!recrute);
     };
 
