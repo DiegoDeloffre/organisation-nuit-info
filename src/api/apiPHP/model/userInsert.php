@@ -41,7 +41,7 @@ function CreateNewOrganisateur($Mail,$Password,$Type){
 	global $bd;
 
 	$sql="INSERT INTO users (Mail,MDP,IdType) VALUES (:Mail,:MDP,(SELECT IdType FROM type WHERE Nom=:Type))";
-	$marqueur=array('Mail'=>$Mail,'MDP'=>$Password,'Type'=>$Type);
+	$marqueur=array('Mail'=>$Mail,'MDP'=>encryptPassword($Password),'Type'=>$Type);
 	$req = $bd->prepare($sql);
 	$req->execute($marqueur);
 	$req->closeCursor();
