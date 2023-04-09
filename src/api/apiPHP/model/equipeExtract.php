@@ -58,7 +58,7 @@ function recupChoixEquipe($IdUser){
 
 function recupEquipeRecrutant(){
     global $bd;
-	$sql="SELECT DISTINCT equipe.IdEquipe, equipe.Nom, equipe.Description, chef.Nom AS 'NomChef', chef.Prenom AS 'PrenomChef', users.Mail AS 'MailChef',equipe.SalleEquipe, equipe.Isole FROM equipe INNER JOIN chef INNER JOIN users WHERE chef.IdChef = equipe.IdChef AND users.IdUser = chef.IdUser AND equipe.Recrute = 1;
+	$sql="SELECT DISTINCT equipe.IdEquipe, equipe.Nom, equipe.Description, chef.Nom AS 'NomChef', chef.Prenom AS 'PrenomChef', users.Mail AS 'MailChef',filiere.Nom AS 'filiereChef',equipe.SalleEquipe, equipe.Isole FROM equipe INNER JOIN chef INNER JOIN users INNER JOIN filiere WHERE chef.IdFiliere = filiere.IdFiliere AND chef.IdChef = equipe.IdChef AND users.IdUser = chef.IdUser AND equipe.Recrute = 1;
     ";
 	$req = $bd->prepare($sql);
 	$req->execute();
@@ -72,6 +72,30 @@ function recupEquipeRecrutant(){
 		$reqM->execute($marqueur);
 		$enreg[$i]["Membres"]=$reqM->fetchAll(PDO::FETCH_ASSOC);
 		$reqM->closeCursor();
+
+		$sqlF="SELECT PromoMaj, COUNT(*) AS NumValues
+		FROM (
+			SELECT m.Nom, f.Nom AS PromoMaj
+			FROM membre m
+			JOIN filiere f ON m.IdFiliere = f.IdFiliere
+			WHERE m.IdEquipe = :IdEquipe
+		
+			UNION
+		
+			SELECT c.Nom, f.Nom AS PromoMaj
+			FROM chef c
+			JOIN filiere f ON c.IdFiliere = f.IdFiliere
+			JOIN equipe e ON e.IdChef = c.IdChef AND e.IdEquipe = :IdEquipe
+		) AS combined_table
+		GROUP BY PromoMaj
+		ORDER BY NumValues DESC
+		LIMIT 1;
+		";
+		$reqF = $bd->prepare($sqlF);
+		$marqueur=array('IdEquipe'=>$enreg[$i]["Equipe"]["IdEquipe"]);
+		$reqF->execute($marqueur);
+		$enreg[$i]["Equipe"]["PromoMaj"]=$reqF->fetchAll(PDO::FETCH_ASSOC)[0]["PromoMaj"];
+		$reqF->closeCursor();
 
 		$sqlD="SELECT IdChercheur FROM demande WHERE IdEquipe= :IdEquipe";
 		$reqD = $bd->prepare($sqlD);
@@ -224,7 +248,21 @@ function getSalleEquipe($IdUser){
 
 function getInfosEquipe($IdUser){
 	global $bd;
-	$sql="SELECT DISTINCT equipe.Nom, equipe.Description, chef.Nom AS 'NomChef', chef.Prenom AS 'PrenomChef', users.Mail AS 'MailChef',salle.Nom AS 'Salle' FROM equipe INNER JOIN chef INNER JOIN users INNER JOIN salle WHERE chef.IdChef = equipe.IdChef AND users.IdUser = chef.IdUser  AND chef.IdUser =:IdUser AND salle.IdSalle = equipe.IdSalle;";
+	$sql="SELECT DISTINCT 
+	equipe.Nom, 
+	equipe.Description, 
+	chef.Nom AS `NomChef`, 
+	chef.Prenom AS `PrenomChef`, 
+	users.Mail AS `MailChef`,
+	salle.Nom AS `Salle` 
+  FROM 
+	equipe 
+	INNER JOIN chef ON chef.IdChef = equipe.IdChef 
+	INNER JOIN users ON users.IdUser = chef.IdUser 
+	INNER JOIN salle ON salle.IdSalle = equipe.IdSalle
+	INNER JOIN chercheur 
+  WHERE 
+	chercheur.IdUser = :IdUser AND equipe.IdEquipe = chercheur.Recrute;";
 	$marqueur = array('IdUser'=>$IdUser);
 	$req = $bd->prepare($sql);
 	$req->execute($marqueur);
