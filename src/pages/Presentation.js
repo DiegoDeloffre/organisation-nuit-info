@@ -23,7 +23,6 @@ function Presentation() {
 
             <img className="presentation-image" src={placeholderImage} alt="placeholder" />
             <p className="presentation-paragraph"></p>
-            <img className="presentation-image" src={placeholderImage} alt="placeholder" />
         </div>
     );
 }

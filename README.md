@@ -8,19 +8,19 @@ Un administrateur peut visualiser de nombreuses choses, comparer les listes des 
 Un organisateur dispose des mêmes vues qu'un administrateur mais ne peut que comparer les listes, il ne peut pas réaliser toutes les autres actions des administrateurs.
 
 ## Accès
-Le site n'est pour l'instant pas hébergé donc nous utilisons wamp pour simuler un serveur de développement. En revanche, la base de données est en ligne et accessible.
+Le site n'est pour l'instant pas hébergé donc nous utilisons wamp pour simuler un serveur de développement. En revanche, la base de données est en ligne et accessible pour quelque temps masi sera désactivée automatiquement dans moins d'un mois.
 
 - Accéder à la base de données : 
 	 - url : https://phpmyadmin.alwaysdata.com/
 	 - username : 305937_bdd
-	 - password : NuitInfoSite37+*
 
 ## Installation 
 - Pour l'installation, il faut : 
-	 - Télécharger et configurer wamp
+	 - Télécharger et configurer le localhost de wamp
 	 - Lancer wamp
 	 - Placer le projet dans le répertoire "www" de wamp 
 	 - Ouvrir le projet sur vscode
+     - Mettre à jour les urlBase dans les 3 fichiers javascripts d'APIs 
 	 - Installer yarn si nécessaire
 	 - Installer react-scripts si nécessaire
 	 - lancer yarn start pour lancer le projet
@@ -28,8 +28,6 @@ Le site n'est pour l'instant pas hébergé donc nous utilisons wamp pour simuler
 Le site est lancé, il n'y a plus qu'à se connecter et l'utiliser.
 
 ## Architecture du code
-	
-
 	- api 
 		- apiPHP
 			- API

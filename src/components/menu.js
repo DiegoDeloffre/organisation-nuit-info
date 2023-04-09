@@ -91,11 +91,11 @@ const Menu = () => {
         <Link to="/">Présentation</Link>
         <Link to="/reglement">Reglement</Link>
         {localStorage.UserType === "Chef" ? (
-          <Link to="/accueil1" onClick={isConnected}>Accueil Equipe</Link>
+          <Link to="/accueil1" onClick={isConnected}>Accueil</Link>
         ) : localStorage.UserType === "Chercheur" ? (
-          <Link to="/accueil2" onClick={isConnected}>Accueil Solo</Link>
+          <Link to="/accueil2" onClick={isConnected}>Accueil</Link>
         ) : localStorage.UserType === "Admin" || localStorage.UserType === "Organisateur" ? (
-          <Link to="/administrateur" onClick={isConnected}>Accueil Admin</Link>
+          <Link to="/administrateur" onClick={isConnected}>Accueil</Link>
         ) : (
           <></>
         )}
