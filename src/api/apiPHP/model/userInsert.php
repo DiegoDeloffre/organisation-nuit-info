@@ -3,7 +3,6 @@
 
 function CreateNewAccount($Mail,$Password,$Type,$Nom,$Prenom,$filiere,$Description){
 	global $bd;
-	echo(encryptPassword($Password));
 	if($Type == "Chercheur"){
 		$sql="INSERT INTO users (Mail,MDP,IdType) VALUES (:Mail,:MDP,(SELECT IdType FROM type WHERE Nom=:Type))";
 		$marqueur=array('Mail'=>$Mail,'MDP'=>encryptPassword($Password),'Type'=>$Type);
