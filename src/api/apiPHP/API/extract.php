@@ -103,6 +103,10 @@ if(!empty($_POST["action"])){
                 echo json_encode(compare_user_lists($_POST["JsonList"]));
             }
             break;
+        case "getRecrute":
+            if(!empty($_POST["IdUser"])){
+                echo json_encode(getRecrute($_POST["IdUser"]));
+            }
             
     }
 
