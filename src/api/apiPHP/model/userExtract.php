@@ -193,19 +193,5 @@ function compare_user_lists($json1) {
     return $result;
 }
 
-
-function getRecrute($IdUser){
-	global $bd;
-    $sql="SELECT DISTINCT chercheur.Recrute FROM chercheur INNER JOIN users WHERE chercheur.IdUser = :IdUser AND users.IdUser = chercheur.IdUser;
-    ";
-	$marqueur=array('IdUser'=>$IdUser);
-	$req = $bd->prepare($sql);
-	$req->execute($marqueur);
-	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
-	$req->closeCursor();
-	return $enreg;
-}
-
-
 ?>
 

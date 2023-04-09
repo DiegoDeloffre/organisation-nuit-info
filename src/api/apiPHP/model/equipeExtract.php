@@ -271,4 +271,16 @@ function getInfosEquipe($IdUser){
 	return $enreg;
 }
 
+function getRecrute($IdUser){
+	global $bd;
+    $sql="SELECT DISTINCT equipe.Recrute FROM equipe INNER JOIN chef WHERE chef.IdUser = :IdUser AND equipe.IdChef = chef.IdChef;
+    ";
+	$marqueur=array('IdUser'=>$IdUser);
+	$req = $bd->prepare($sql);
+	$req->execute($marqueur);
+	$enreg=$req->fetchAll(PDO::FETCH_ASSOC);
+	$req->closeCursor();
+	return $enreg;
+}
+
 ?>
